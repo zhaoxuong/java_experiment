@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class youdao {
+public class YouDaodef {
 
  
  private String url = "http://fanyi.youdao.com/openapi.do";
@@ -155,7 +155,7 @@ public class youdao {
 
   String str = "java";
 
-  youdao test = new youdao();
+  YouDaodef test = new YouDaodef();
   
   String temp = test.getYouDaoValue(str);
  // System.out.println(temp);

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class Bing {
+public class Bing_def {
 //http://xtk.azurewebsites.net/BingDictService.aspx?type=xml&Word=what
 //http://dict-co.iciba.com/api/dictionary.php?w=go&type=xml&key=78059181E8F2E448260E590E98B30347 
  private String url = "http://xtk.azurewebsites.net/BingDictService.aspx";
@@ -124,7 +124,7 @@ public class Bing {
 
   String str = "java";
 
-  Bing test = new Bing();
+  Bing_def test = new Bing_def();
   
   String temp = test.getJinShanValue(str);
  // System.out.println(temp);

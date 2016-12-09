@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class JinShan {
+public class JinShan_def {
 
 //http://dict-co.iciba.com/api/dictionary.php?w=go&type=xml&key=78059181E8F2E448260E590E98B30347 
  private String url = "http://dict-co.iciba.com/api/dictionary.php";
@@ -115,7 +115,7 @@ public class JinShan {
 
   String str = "java";
 
-  JinShan test = new JinShan();
+  JinShan_def test = new JinShan_def();
   
   String temp = test.getJinShanValue(str);
  // System.out.println(temp);

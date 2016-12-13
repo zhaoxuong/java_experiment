@@ -9,6 +9,8 @@ public class Bing_def {
 //http://xtk.azurewebsites.net/BingDictService.aspx?type=xml&Word=what
 //http://dict-co.iciba.com/api/dictionary.php?w=go&type=xml&key=78059181E8F2E448260E590E98B30347 
  private String url = "http://xtk.azurewebsites.net/BingDictService.aspx";
+ private String [] getresult=new String[100];
+ private int count=0;
 
  
  //private String keyfrom = "zhaoxiong-122";
@@ -16,6 +18,7 @@ public class Bing_def {
 
  
  private String doctype = "xml";
+ 
 
  
  private String sendGet(String str) throws Exception{
@@ -76,12 +79,16 @@ public class Bing_def {
   int re4=result.indexOf("\"}");
   //System.out.println(re1+" "+re2+" "+re3+" "+re4);
   while(re3!=-1){
-	  System.out.println("ok");
+	  //System.out.println("ok");
 	  String in1=result.substring(re1+7,re2);
-	  System.out.println("ok2");
+	  //System.out.println("ok2");
 	  String in2=result.substring(re3+7,re4);
 	  System.out.println(in1);
 	  System.out.println(in2);
+	  getresult[count]=in1;
+	  count++;
+	  getresult[count]=in2;
+	  count++;
 	  result=result.substring(re4+4);
 	  re1=result.indexOf("\"pos\":\"");
 	  result=result.substring(re1+1);
@@ -105,6 +112,10 @@ public class Bing_def {
 	  String in2=result.substring(re3+7,re4);
 	  System.out.println(in1);
 	  System.out.println(in2);
+	  getresult[count]=in1;
+	  count++;
+	  getresult[count]=in2;
+	  count++;
 	  result=result.substring(re4+3);
 	  re1=result.indexOf("\"eng\":\"");
 	  result=result.substring(re1+1);

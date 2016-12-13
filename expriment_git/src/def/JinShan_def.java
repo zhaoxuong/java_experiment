@@ -9,7 +9,8 @@ public class JinShan_def {
 
 //http://dict-co.iciba.com/api/dictionary.php?w=go&type=xml&key=78059181E8F2E448260E590E98B30347 
  private String url = "http://dict-co.iciba.com/api/dictionary.php";
-
+ private String [] getresult=new String[100];
+ private int count=0;
  
  //private String keyfrom = "zhaoxiong-122";
  private String key = "78059181E8F2E448260E590E98B30347";
@@ -70,12 +71,18 @@ public class JinShan_def {
   int re4=result.indexOf("</acceptation>");
   //int re5=result.indexOf("<sent>");
   System.out.println("=====基本释义====");
+  getresult[count]="=====基本释义====";
+  count++;
   while(re1!=-1){
 	  String in1,in2;
 	  in1=result.substring(re1+5, re2);
 	  in2=result.substring(re3+13,re4);
 	  System.out.println(in1);
 	  System.out.println(in2);
+	  getresult[count]=in1;
+	  count++;
+	  getresult[count]=in2;
+	  count++;
 	  result=result.substring(re4+14);
 	   re1=result.indexOf("<pos>");
 	   re2=result.indexOf(".</pos>");
@@ -84,6 +91,7 @@ public class JinShan_def {
 	  
   }
   System.out.println("=====例句====");
+  getresult[count]="=====例句====";
    re1=result.indexOf("<orig>");
    re2=result.indexOf("</orig>");
    re3=result.indexOf("<trans>");
@@ -95,6 +103,10 @@ public class JinShan_def {
 		  in2=result.substring(re3+7,re4);
 		  System.out.println(in1);
 		  System.out.println(in2);
+		  getresult[count]=in1;
+		  count++;
+		  getresult[count]=in2;
+		  count++;
 		  result=result.substring(re4+8);
 		  re1=result.indexOf("<orig>");
 		   re2=result.indexOf("</orig>");

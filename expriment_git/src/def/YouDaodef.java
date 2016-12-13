@@ -9,6 +9,8 @@ public class YouDaodef {
 
  
  private String url = "http://fanyi.youdao.com/openapi.do";
+ private String [] getresult=new String[100];
+ private int count=0;//计数getresult的个数多少，调用getYOUdaovalue，getreult返回要的东西
 
  
  private String keyfrom = "zhaoxiong-122";
@@ -59,7 +61,7 @@ public class YouDaodef {
  
  public String getYouDaoValue(String str) throws Exception{
   String result = null;
-
+  
   // 发送GET请求翻译
   result = sendGet(str);
   int num1,num2;
@@ -80,6 +82,10 @@ public class YouDaodef {
    //System.out.println(re1);
    System.out.println("==========有道翻译================" + ":");
    System.out.println(in);
+   getresult[count]="==========有道翻译================";
+   count++;
+   getresult[count]=in;
+   count++;
    result=result.substring(re2+20);
    //System.out.println(result);
    
@@ -91,6 +97,10 @@ public class YouDaodef {
    //System.out.println(re1);
    System.out.println("===========美式音标============" + ":");
    System.out.println(in);
+   getresult[count]="===========美式音标============";
+   count++;
+   getresult[count]=in;
+   count++;
    result=result.substring(re2+num2);
    
    re1 = result.indexOf("<uk-phonetic><![CDATA[");
@@ -101,6 +111,10 @@ public class YouDaodef {
    //System.out.println(re1);
    System.out.println("===========英式音标============" + ":");
    System.out.println(in);
+   getresult[count]="===========英式音标============";
+   count++;
+   getresult[count]=in;
+   count++;
    result=result.substring(re2+num2);
 
    re1 = result.indexOf("<ex><![CDATA[");
@@ -109,12 +123,16 @@ public class YouDaodef {
    in = result.substring(re1 + 13, re2);
   //System.out.println(re1+" "+re3);
    System.out.println("==========基本释义================" + ":");
+   getresult[count]="==========基本释义=============";
+   count++;
    //System.out.println(in);
    //result=result.substring(re2+8);
    while(re1<re3){
   
    in = result.substring(re1 + 13, re2);
    System.out.println(in);
+   getresult[count]=in;
+   count++;
    result=result.substring(re2+8);
    re1 = result.indexOf("<ex><![CDATA["); 
    re2 = result.indexOf("]]></ex>");
@@ -122,11 +140,15 @@ public class YouDaodef {
    }
    
    System.out.println("===========网络释义============" + ":");
+   getresult[count]="===========网络释义============";
+   count++;
    while(result.length()>100){
 	   re1=result.indexOf("<![CDATA[");
 	   re2=result.indexOf("]]>");
 	   in = result.substring(re1 + 9, re2);
 	   System.out.println(in);
+	   getresult[count]=in;
+	   count++;
 	   result=result.substring(re2+8);
 	   
    }

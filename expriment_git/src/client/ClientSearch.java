@@ -217,7 +217,7 @@ public class ClientSearch extends JFrame{
 	private JTextField jtfWord=new JTextField();//input 输入框
 	private JButton jbtSearch=new JButton("Search");//search 按钮
 	
-	private JCheckBox jchkBaidu=new JCheckBox("百度");
+	private JCheckBox jchkBaidu=new JCheckBox("金山");
 	private JCheckBox jchkYoudao=new JCheckBox("有道");
 	private JCheckBox jchkBing=new JCheckBox("必应");//3个选定钮
 	
@@ -227,14 +227,16 @@ public class ClientSearch extends JFrame{
 	private JTextArea jtaYoudao1=new JTextArea(),jtaYoudao2=new JTextArea(),jtaYoudao3=new JTextArea(),jtaYoudao4=new JTextArea();
 	private JLabel jlblBing1,jlblBing2,jlblBing3,jlblBing4;
 	private JTextArea jtaBing1=new JTextArea(),jtaBing2=new JTextArea(),jtaBing3=new JTextArea(),jtaBing4=new JTextArea();
+	
+	
 	private JPanel pcard=new JPanel();//为了cardLayout 需要7个组件，不能在不同的Jpanel中调用加入同一个组件，所以备份了4个一样的组件
 	
-	private JLabel  jlblzan;
-	private JLabel jlblzanBaidu=new JLabel("百度");
+	//private JLabel  jlblzan;
+	/*private JLabel jlblzanBaidu=new JLabel("金山");
 	private JLabel jlblzanYoudao=new JLabel("有道");
 	private JLabel jlblzanBing=new JLabel("必应");
 	private JButton  jbtzanBaidu,jbtzanYoudao,jbtzanBing;
-	private int flagBaidu,flagYoudao,flagBing;
+	private int flagBaidu,flagYoudao,flagBing;*/
 	
 	//test
 	private int flag1;
@@ -265,40 +267,403 @@ public class ClientSearch extends JFrame{
 		//jbtSearch.setBackground(Color.GRAY);	
 	}
 	public void jlblbaiduset(){//百度等标签的设置
-		ImageIcon icon1=new ImageIcon("baidu .jpg");
-		ImageIcon icon2=new ImageIcon("youdao.jpg");
-		ImageIcon icon3=new ImageIcon("bing.jpg");
+		ImageIcon icon1=new ImageIcon("金山灰色.png");
+		ImageIcon icon2=new ImageIcon("有道灰色.png");
+		ImageIcon icon3=new ImageIcon("必应灰色.png");
+		ImageIcon icon4=new ImageIcon("金山蓝色.png");
+		ImageIcon icon5=new ImageIcon("有道蓝色.png");
+		ImageIcon icon6=new ImageIcon("必应蓝色.png");
+		ImageIcon icon7=new ImageIcon("赞.png");
 		jlblBaidu1=new JLabel(icon1,SwingConstants.LEFT);
+		
+		
+		jlblBaidu1.addMouseListener(new MouseAdapter() {
+			
+			public void mouseClicked(MouseEvent e){
+			if(jlblBaidu1.getIcon()==icon1||jlblBaidu1.getIcon()==icon7)	
+				{
+				jlblBaidu1.setIcon(icon4);
+				jlblBaidu2.setIcon(icon4);
+				jlblBaidu3.setIcon(icon4);
+				jlblBaidu4.setIcon(icon4);
+				
+				}
+			else
+				{
+				jlblBaidu1.setIcon(icon1);
+				jlblBaidu2.setIcon(icon1);
+				jlblBaidu3.setIcon(icon1);
+				jlblBaidu4.setIcon(icon1);
+				}
+				
+			}
+			
+			public void mouseEntered(MouseEvent e){
+				if(jlblBaidu1.getIcon()==icon1)
+				jlblBaidu1.setIcon(icon7);
+				
+			}
+			public void mouseExited(MouseEvent e){
+				if(jlblBaidu1.getIcon()==icon7)
+				jlblBaidu1.setIcon(icon1);
+				
+			}
+			
+			
+		});
 		jlblYoudao1=new JLabel(icon2,SwingConstants.LEFT);
+        jlblYoudao1.addMouseListener(new MouseAdapter() {
+			
+			public void mouseClicked(MouseEvent e){
+				if(jlblYoudao1.getIcon()==icon2||jlblYoudao1.getIcon()==icon7)	
+					{
+					jlblYoudao1.setIcon(icon5);
+					jlblYoudao2.setIcon(icon5);
+					jlblYoudao3.setIcon(icon5);
+					jlblYoudao4.setIcon(icon5);
+					}
+				else
+					{
+					jlblYoudao1.setIcon(icon4);
+					jlblYoudao2.setIcon(icon2);
+					jlblYoudao3.setIcon(icon2);
+					jlblYoudao4.setIcon(icon2);
+					}
+				
+			}
+			public void mouseEntered(MouseEvent e){
+				if(jlblYoudao1.getIcon()==icon2)
+				jlblYoudao1.setIcon(icon7);
+				
+			}
+			public void mouseExited(MouseEvent e){
+				if(jlblYoudao1.getIcon()==icon7)
+				jlblYoudao1.setIcon(icon2);
+				
+			}
+		});
 		jlblBing1=new JLabel(icon3,SwingConstants.LEFT);
+		jlblBing1.addMouseListener(new MouseAdapter() {
+			
+			public void mouseClicked(MouseEvent e){
+			if(jlblBing1.getIcon()==icon3||jlblBing1.getIcon()==icon7)
+				{
+				jlblBing1.setIcon(icon6);
+				jlblBing2.setIcon(icon6);
+				jlblBing3.setIcon(icon6);
+				jlblBing4.setIcon(icon6);
+				}
+			else
+				{
+				jlblBing1.setIcon(icon3);
+				jlblBing2.setIcon(icon3);
+				jlblBing3.setIcon(icon3);
+				jlblBing4.setIcon(icon3);;
+				}
+			}
+			
+			public void mouseEntered(MouseEvent e){
+				if(jlblBing1.getIcon()==icon3)
+				jlblBing1.setIcon(icon7);
+				
+			}
+			public void mouseExited(MouseEvent e){
+				if(jlblBing1.getIcon()==icon7)
+				jlblBing1.setIcon(icon3);
+				
+			}
+		});
+		
 		jlblBaidu2=new JLabel(icon1,SwingConstants.LEFT);
+		jlblBaidu2.addMouseListener(new MouseAdapter() {
+			
+			public void mouseClicked(MouseEvent e){
+				if(jlblBaidu2.getIcon()==icon1||jlblBaidu2.getIcon()==icon7)	
+					{
+					jlblBaidu1.setIcon(icon4);
+					jlblBaidu2.setIcon(icon4);
+					jlblBaidu3.setIcon(icon4);
+					jlblBaidu4.setIcon(icon4);
+					}
+				else
+					{
+					jlblBaidu1.setIcon(icon1);
+					jlblBaidu2.setIcon(icon1);
+					jlblBaidu3.setIcon(icon1);
+					jlblBaidu4.setIcon(icon1);
+					}
+			}
+			public void mouseEntered(MouseEvent e){
+				if(jlblBaidu2.getIcon()==icon1)
+				jlblBaidu1.setIcon(icon7);
+				
+			}
+			public void mouseExited(MouseEvent e){
+				if(jlblBaidu2.getIcon()==icon7)
+				jlblBaidu2.setIcon(icon1);
+				
+			}
+		});
 		jlblYoudao2=new JLabel(icon2,SwingConstants.LEFT);
+		jlblYoudao2.addMouseListener(new MouseAdapter() {
+			
+			public void mouseClicked(MouseEvent e){
+				if(jlblYoudao2.getIcon()==icon2)	
+					{
+					jlblYoudao1.setIcon(icon5);
+					jlblYoudao2.setIcon(icon5);
+					jlblYoudao3.setIcon(icon5);
+					jlblYoudao4.setIcon(icon5);
+					}
+				else
+					{
+					jlblYoudao1.setIcon(icon2);
+					jlblYoudao2.setIcon(icon2);
+					jlblYoudao3.setIcon(icon2);
+					jlblYoudao4.setIcon(icon2);
+					}
+			}
+			public void mouseEntered(MouseEvent e){
+				if(jlblYoudao2.getIcon()==icon2||jlblYoudao2.getIcon()==icon7)
+				jlblYoudao2.setIcon(icon7);
+				
+			}
+			public void mouseExited(MouseEvent e){
+				if(jlblYoudao2.getIcon()==icon7)
+				jlblYoudao2.setIcon(icon2);
+				
+			}
+		});
 		jlblBing2=new JLabel(icon3,SwingConstants.LEFT);
+		jlblBing2.addMouseListener(new MouseAdapter() {
+			
+			public void mouseClicked(MouseEvent e){
+				if(jlblBing2.getIcon()==icon3||jlblBing2.getIcon()==icon7)
+					{
+					jlblBing1.setIcon(icon6);
+					jlblBing2.setIcon(icon6);
+					jlblBing3.setIcon(icon6);
+					jlblBing4.setIcon(icon6);
+					}
+				else
+					{
+					jlblBing1.setIcon(icon3);
+					jlblBing2.setIcon(icon3);
+					jlblBing3.setIcon(icon3);
+					jlblBing4.setIcon(icon3);
+					}
+			}
+			public void mouseEntered(MouseEvent e){
+				if(jlblBing2.getIcon()==icon3)
+				jlblBing2.setIcon(icon7);
+				
+			}
+			public void mouseExited(MouseEvent e){
+				if(jlblBing2.getIcon()==icon7)
+				jlblBing2.setIcon(icon3);
+				
+			}
+		});
 		jlblBaidu3=new JLabel(icon1,SwingConstants.LEFT);
+		jlblBaidu3.addMouseListener(new MouseAdapter() {
+			
+			public void mouseClicked(MouseEvent e){
+				if(jlblBaidu3.getIcon()==icon1||jlblBaidu3.getIcon()==icon7)	
+				{
+					jlblBaidu1.setIcon(icon4);
+					jlblBaidu2.setIcon(icon4);
+					jlblBaidu3.setIcon(icon4);
+					jlblBaidu4.setIcon(icon4);
+				}
+				else
+				{
+					jlblBaidu1.setIcon(icon1);
+					jlblBaidu2.setIcon(icon1);
+					jlblBaidu3.setIcon(icon1);
+					jlblBaidu4.setIcon(icon1);
+				}
+			}
+			
+			public void mouseEntered(MouseEvent e){
+				if(jlblBaidu3.getIcon()==icon1)
+				jlblBaidu3.setIcon(icon7);
+				
+			}
+			public void mouseExited(MouseEvent e){
+				if(jlblBaidu3.getIcon()==icon7)
+				jlblBaidu3.setIcon(icon1);
+				
+			}
+		});
 		jlblYoudao3=new JLabel(icon2,SwingConstants.LEFT);
+		jlblYoudao3.addMouseListener(new MouseAdapter() {
+			
+			public void mouseClicked(MouseEvent e){
+				if(jlblYoudao3.getIcon()==icon2||jlblYoudao3.getIcon()==icon7)	
+					{
+					jlblYoudao1.setIcon(icon5);
+					jlblYoudao2.setIcon(icon5);
+					jlblYoudao3.setIcon(icon5);
+					jlblYoudao4.setIcon(icon5);
+					}
+				else
+					{
+					jlblYoudao1.setIcon(icon2);
+					jlblYoudao2.setIcon(icon2);
+					jlblYoudao3.setIcon(icon2);
+					jlblYoudao4.setIcon(icon2);
+					}
+			}
+			public void mouseEntered(MouseEvent e){
+				if(jlblYoudao3.getIcon()==icon2)
+				jlblYoudao3.setIcon(icon7);
+				
+			}
+			public void mouseExited(MouseEvent e){
+				if(jlblYoudao3.getIcon()==icon7)
+				jlblYoudao3.setIcon(icon2);
+				
+			}
+		});
 		jlblBing3=new JLabel(icon3,SwingConstants.LEFT);
+		jlblBing3.addMouseListener(new MouseAdapter() {
+			
+			public void mouseClicked(MouseEvent e){
+				if(jlblBing3.getIcon()==icon3||jlblBing3.getIcon()==icon7)
+					{
+					jlblBing1.setIcon(icon6);
+					jlblBing2.setIcon(icon6);
+					jlblBing3.setIcon(icon6);
+					jlblBing4.setIcon(icon6);
+					}
+				else
+					{
+					jlblBing1.setIcon(icon3);
+					jlblBing2.setIcon(icon3);
+					jlblBing3.setIcon(icon3);
+					jlblBing4.setIcon(icon3);
+					}
+			}
+			public void mouseEntered(MouseEvent e){
+				if(jlblBing3.getIcon()==icon3)
+				jlblBing3.setIcon(icon7);
+				
+			}
+			public void mouseExited(MouseEvent e){
+				if(jlblBing3.getIcon()==icon7)
+				jlblBing3.setIcon(icon3);
+				
+			}
+		});
 		jlblBaidu4=new JLabel(icon1,SwingConstants.LEFT);
+		jlblBaidu4.addMouseListener(new MouseAdapter() {
+			
+			public void mouseClicked(MouseEvent e){
+				if(jlblBaidu4.getIcon()==icon1||jlblBaidu4.getIcon()==icon7)	
+					{
+					jlblBaidu1.setIcon(icon4);
+					jlblBaidu2.setIcon(icon4);
+					jlblBaidu3.setIcon(icon4);
+					jlblBaidu4.setIcon(icon4);
+					}
+				else
+					{
+					jlblBaidu1.setIcon(icon1);
+					jlblBaidu2.setIcon(icon1);
+					jlblBaidu3.setIcon(icon1);
+					jlblBaidu4.setIcon(icon1);
+					}
+			}
+			public void mouseEntered(MouseEvent e){
+				if(jlblBaidu4.getIcon()==icon1)
+				jlblBaidu4.setIcon(icon7);
+				
+			}
+			public void mouseExited(MouseEvent e){
+				if(jlblBaidu4.getIcon()==icon7)
+				jlblBaidu4.setIcon(icon1);
+				
+			}
+		});
 		jlblYoudao4=new JLabel(icon2,SwingConstants.LEFT);
+		jlblYoudao4.addMouseListener(new MouseAdapter() {
+			
+			public void mouseClicked(MouseEvent e){
+				if(jlblYoudao4.getIcon()==icon2||jlblYoudao4.getIcon()==icon7)	
+					{
+					jlblYoudao1.setIcon(icon5);
+					jlblYoudao2.setIcon(icon5);
+					jlblYoudao3.setIcon(icon5);
+					jlblYoudao4.setIcon(icon5);
+					}
+				else
+					{
+					jlblYoudao1.setIcon(icon2);
+					jlblYoudao2.setIcon(icon2);
+					jlblYoudao3.setIcon(icon2);
+					jlblYoudao4.setIcon(icon2);
+					}
+			}
+			public void mouseEntered(MouseEvent e){
+				if(jlblYoudao4.getIcon()==icon2)
+				jlblYoudao4.setIcon(icon7);
+				
+			}
+			public void mouseExited(MouseEvent e){
+				if(jlblYoudao4.getIcon()==icon7)
+				jlblYoudao4.setIcon(icon2);
+				
+			}
+		});
 		jlblBing4=new JLabel(icon3,SwingConstants.LEFT);
+		jlblBing4.addMouseListener(new MouseAdapter() {
+			
+			public void mouseClicked(MouseEvent e){
+				if(jlblBing4.getIcon()==icon3||jlblBing4.getIcon()==icon7)
+					{
+					jlblBing1.setIcon(icon6);
+					jlblBing2.setIcon(icon6);
+					jlblBing3.setIcon(icon6);
+					jlblBing4.setIcon(icon6);
+					}
+				else
+					{
+					jlblBing1.setIcon(icon3);
+					jlblBing2.setIcon(icon3);
+					jlblBing3.setIcon(icon3);
+					jlblBing4.setIcon(icon3);
+					}
+			}
+			public void mouseEntered(MouseEvent e){
+				if(jlblBing4.getIcon()==icon3)
+				jlblBing4.setIcon(icon7);
+				
+			}
+			public void mouseExited(MouseEvent e){
+				if(jlblBing4.getIcon()==icon7)
+				jlblBing4.setIcon(icon3);
+				
+			}
+		});
 		
 	}
-	public void jtabaiduset(){//输出框
-		jtaBaidu1.setBorder(BorderFactory.createLineBorder(Color.red,2));
-		jtaBing1.setBorder(BorderFactory.createLineBorder(Color.red,2));
-		jtaYoudao1.setBorder(BorderFactory.createLineBorder(Color.red,2));
-		jtaBaidu2.setBorder(BorderFactory.createLineBorder(Color.red,2));
-		jtaBing2.setBorder(BorderFactory.createLineBorder(Color.red,2));
-		jtaYoudao2.setBorder(BorderFactory.createLineBorder(Color.red,2));
-		jtaBaidu3.setBorder(BorderFactory.createLineBorder(Color.red,2));
-		jtaBing3.setBorder(BorderFactory.createLineBorder(Color.red,2));
-		jtaYoudao3.setBorder(BorderFactory.createLineBorder(Color.red,2));
-		jtaBaidu4.setBorder(BorderFactory.createLineBorder(Color.red,2));
-		jtaBing4.setBorder(BorderFactory.createLineBorder(Color.red,2));
-		jtaYoudao4.setBorder(BorderFactory.createLineBorder(Color.red,2));
+	public void jtabaiduset(){//输出框设置
+		jtaBaidu1.setBorder(BorderFactory.createLineBorder(Color.red,1));
+		jtaBing1.setBorder(BorderFactory.createLineBorder(Color.red,1));
+		jtaYoudao1.setBorder(BorderFactory.createLineBorder(Color.red,1));
+		jtaBaidu2.setBorder(BorderFactory.createLineBorder(Color.red,1));
+		jtaBing2.setBorder(BorderFactory.createLineBorder(Color.red,1));
+		jtaYoudao2.setBorder(BorderFactory.createLineBorder(Color.red,1));
+		jtaBaidu3.setBorder(BorderFactory.createLineBorder(Color.red,1));
+		jtaBing3.setBorder(BorderFactory.createLineBorder(Color.red,1));
+		jtaYoudao3.setBorder(BorderFactory.createLineBorder(Color.red,1));
+		jtaBaidu4.setBorder(BorderFactory.createLineBorder(Color.red,1));
+		jtaBing4.setBorder(BorderFactory.createLineBorder(Color.red,1));
+		jtaYoudao4.setBorder(BorderFactory.createLineBorder(Color.red,1));
 		
 		
 	}
-	public void jtfWordSet(){//输入框设置
+	public void jtfWordSet(){//输入框设置,调用searchword方法
 		jtfWord.setFont(new Font(Font.DIALOG, Font.PLAIN | Font.ROMAN_BASELINE, 20));
 		jtfWord.setBackground(Color.white);
 		jtfWord.setForeground(Color.GREEN);
@@ -313,8 +678,8 @@ public class ClientSearch extends JFrame{
 		}, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 	}
 	
-	
-	public void jlblzanset(){
+	/*
+	public void jlblzanset(){//赞标签的设置
 		jlblzan=new JLabel("亲，求赞哦");
 		jlblzan.setFont(new Font("Serif", Font.BOLD, 15));
 		jlblzan.setBackground(Color.BLACK);
@@ -327,7 +692,7 @@ public class ClientSearch extends JFrame{
 		
 	}
 	
-	public void jbtzanset(){
+	public void jbtzanset(){//赞按钮设置2
 		 jbtzanBaidu=new JButton("赞");
 		 jbtzanBaidu.setFont(new Font("Serif", Font.ITALIC | Font.BOLD, 20));
 	     jbtzanBaidu.setBackground(Color.gray);
@@ -338,11 +703,12 @@ public class ClientSearch extends JFrame{
 		 jbtzanBing.setFont(new Font("Serif", Font.ITALIC | Font.BOLD, 20));
 	     jbtzanBing.setBackground(Color.gray);		
 	}
-	
+	*/
 	public void TextSet(){//从服务器获取东西来填在客户端
 		try{
 			Object object=fromServer.readObject();
 			wordZan.update((WordZan)object);
+			
 			jtaBaidu1.setText((String)(fromServer.readObject())+wordZan.getBaidu());
 			jtaYoudao1.setText((String)(fromServer.readObject())+wordZan.getYoudao());
 			jtaBing1.setText((String)(fromServer.readObject())+wordZan.getBing());
@@ -368,7 +734,7 @@ public class ClientSearch extends JFrame{
 			System.err.println(e);
 		}
 	}
-	public void searchWord(String word){
+	public void searchWord(String word){//调用Textset方法在客户端显示结果，并向服务器返回赞的数目
 		try{
 			if(word.equals(wordZan.getWord())){
 				return;
@@ -390,28 +756,8 @@ public class ClientSearch extends JFrame{
 		}
 	}
 	
-	/*public void searchWord(String word){//搜做实现，具体在server这里只是调用
-		try{
-			toServer.writeUTF(word);
-			jtaBaidu1.setText(fromServer.readUTF());
-			jtaYoudao1.setText(fromServer.readUTF());
-			jtaBing1.setText(fromServer.readUTF());
-			jtaBaidu2.setText(fromServer.readUTF());
-			jtaYoudao2.setText(fromServer.readUTF());
-			jtaBing2.setText(fromServer.readUTF());
-			jtaBaidu3.setText(fromServer.readUTF());
-			jtaYoudao3.setText(fromServer.readUTF());
-			jtaBing3.setText(fromServer.readUTF());
-			jtaBaidu4.setText(fromServer.readUTF());
-			jtaYoudao4.setText(fromServer.readUTF());
-			jtaBing4.setText(fromServer.readUTF());
-		}
-		catch (IOException e) {
-			// TODO: handle exception
-			System.err.println(e);
-		}
-	}*/
-	public void jbtSearchSet() {//search按钮的设置
+	
+	public void jbtSearchSet() {//search按钮的设置，调用searchword方法
 		jbtSearch.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		jbtSearch.setToolTipText("click to search");
 		jbtSearch.addActionListener(new ActionListener() {
@@ -447,23 +793,39 @@ public class ClientSearch extends JFrame{
 			System.err.println(e);
 		}
 		flag1=flag2=flag3=0;
-		flagBaidu=flagBing=flagYoudao=0;
+		//flagBaidu=flagBing=flagYoudao=0;
 		jlblTitleset();
 		jlbinputset();
 		jlblbaiduset();
 		jtabaiduset();
 		jbtSearchSet();
-		jbtzanset();
-		jlblzanset();
+		//jbtzanset();
+		//jlblzanset();
 		jtfWordSet();
 		jbtSearchSet();
+		JScrollPane jsBaidu1=new JScrollPane(jtaBaidu1);
+		JScrollPane jsBaidu2=new JScrollPane(jtaBaidu2);
+		JScrollPane jsBaidu3=new JScrollPane(jtaBaidu3);
+		JScrollPane jsBaidu4=new JScrollPane(jtaBaidu4);
+		JScrollPane jsYoudao1=new JScrollPane(jtaYoudao1);
+		JScrollPane jsYoudao2=new JScrollPane(jtaYoudao2);
+		JScrollPane jsYoudao3=new JScrollPane(jtaYoudao3);
+		JScrollPane jsYoudao4=new JScrollPane(jtaYoudao4);
+		JScrollPane jsBing1=new JScrollPane(jtaBing1);
+		JScrollPane jsBing2=new JScrollPane(jtaBing2);
+		JScrollPane jsBing3=new JScrollPane(jtaBing3);
+		JScrollPane jsBing4=new JScrollPane(jtaBing4);//做滚动条处理
+		
+		
+		
+		
 		JPanel p1=new JPanel();
-		p1.setLayout(new BorderLayout());
-		p1.add(jlblInput, BorderLayout.WEST);
+		p1.setLayout(new BorderLayout(10,0));
+		//p1.add(jlblInput, BorderLayout.WEST);
 		p1.add(jtfWord,BorderLayout.CENTER);
 		p1.add(jbtSearch,BorderLayout.EAST);
 		JPanel p2=new JPanel();//输入行模块 p1
-		p2.setLayout(new GridLayout(1,3));
+		p2.setLayout(new FlowLayout(FlowLayout.CENTER,50,0));
 		p2.add(jchkBaidu);
 		p2.add(jchkYoudao);
 		p2.add(jchkBing);//三个复选框模块 p2
@@ -473,34 +835,34 @@ public class ClientSearch extends JFrame{
 		p02.add(jlblTitle);//标题模块 p02
 		
 		JPanel p012=new JPanel();
-		p012.setLayout(new BorderLayout());
-		p012.add(p02, BorderLayout.NORTH);
-		p012.add(p1,BorderLayout.CENTER);
-		p012.add(p2,BorderLayout.SOUTH);//上半部分  p012
+		p012.setLayout(new GridLayout(3,1,0,0));
+		p012.add(p02);
+		p012.add(p1);
+		p012.add(p2);//上半部分  p012
 		
 		JPanel p3=new JPanel();
 		p3.setLayout(new BorderLayout());
 		p3.add(jlblBaidu1, BorderLayout.WEST);
-		p3.add(jtaBaidu1,BorderLayout.CENTER);
+		p3.add(jsBaidu1,BorderLayout.CENTER);
 		JPanel p4=new JPanel();
 		p4.setLayout(new BorderLayout());
 		p4.add(jlblYoudao1, BorderLayout.WEST);
-		p4.add(jtaYoudao1,BorderLayout.CENTER);
+		p4.add(jsYoudao1,BorderLayout.CENTER);
 		JPanel p5=new JPanel();
 		p5.setLayout(new BorderLayout());
 		p5.add(jlblBing1, BorderLayout.WEST);
-		p5.add(jtaBing1,BorderLayout.CENTER);//3个小分块		
+		p5.add(jsBing1,BorderLayout.CENTER);//3个小分块		
 		
 		
 		
 		JPanel p32=new JPanel();
 		p32.setLayout(new BorderLayout());
 		p32.add(jlblBaidu2, BorderLayout.WEST);
-		p32.add(jtaBaidu2,BorderLayout.CENTER);
+		p32.add(jsBaidu2,BorderLayout.CENTER);
 		JPanel p42=new JPanel();
 		p42.setLayout(new BorderLayout());
 		p42.add(jlblYoudao2, BorderLayout.WEST);
-		p42.add(jtaYoudao2,BorderLayout.CENTER);	
+		p42.add(jsYoudao2,BorderLayout.CENTER);	
 		JPanel p34=new JPanel();
 		p34.setLayout(new GridLayout(2, 1,1,5));
 		p34.add(p32);
@@ -513,11 +875,11 @@ public class ClientSearch extends JFrame{
 		JPanel p33=new JPanel();
 		p33.setLayout(new BorderLayout());
 		p33.add(jlblBaidu3, BorderLayout.WEST);
-		p33.add(jtaBaidu3,BorderLayout.CENTER);
+		p33.add(jsBaidu3,BorderLayout.CENTER);
 		JPanel p52=new JPanel();
 		p52.setLayout(new BorderLayout());
 		p52.add(jlblBing2, BorderLayout.WEST);
-		p52.add(jtaBing2,BorderLayout.CENTER);
+		p52.add(jsBing2,BorderLayout.CENTER);
 		JPanel p35=new JPanel();
 		p35.setLayout(new GridLayout(2, 1,1,5));
 		p35.add(p33);
@@ -528,11 +890,11 @@ public class ClientSearch extends JFrame{
 		JPanel p43=new JPanel();
 		p43.setLayout(new BorderLayout());
 		p43.add(jlblYoudao3,BorderLayout.WEST);
-		p43.add(jtaYoudao3,BorderLayout.CENTER);
+		p43.add(jsYoudao3,BorderLayout.CENTER);
 		JPanel p53=new JPanel();
 		p53.setLayout(new BorderLayout());
 		p53.add(jlblBing3, BorderLayout.WEST);
-		p53.add(jtaBing3,BorderLayout.CENTER);
+		p53.add(jsBing3,BorderLayout.CENTER);
 		JPanel p45=new JPanel();
 		p45.setLayout(new GridLayout(2, 1,1,5));
 		p45.add(p43);
@@ -543,15 +905,15 @@ public class ClientSearch extends JFrame{
 		JPanel p333=new JPanel();
 		p333.setLayout(new BorderLayout());
 		p333.add(jlblBaidu4, BorderLayout.WEST);
-		p333.add(jtaBaidu4,BorderLayout.CENTER);
+		p333.add(jsBaidu4,BorderLayout.CENTER);
 		JPanel p444=new JPanel();
 		p444.setLayout(new BorderLayout());
 		p444.add(jlblYoudao4, BorderLayout.WEST);
-		p444.add(jtaYoudao4,BorderLayout.CENTER);
+		p444.add(jsYoudao4,BorderLayout.CENTER);
 		JPanel p555=new JPanel();
 		p555.setLayout(new BorderLayout());
 		p555.add(jlblBing4, BorderLayout.WEST);
-		p555.add(jtaBing4,BorderLayout.CENTER);
+		p555.add(jsBing4,BorderLayout.CENTER);
 		JPanel p345=new JPanel();
 		p345.setLayout(new GridLayout(3, 1,1,5));
 		p345.add(p333);
@@ -605,12 +967,12 @@ public class ClientSearch extends JFrame{
          
          
          
-		JPanel pzan=new JPanel();
+		/*JPanel pzan=new JPanel();
 		pzan.setLayout(new GridLayout(1, 7,2,1));
 		pzan.add(jlblzan);
 		/*pzan.add(pzan1);
 		pzan.add(pzan2);
-		pzan3.add(pzan3);*/
+		pzan3.add(pzan3);
 		pzan.add(jbtzanBaidu);
 		pzan.add(jlblzanBaidu);
 		pzan.add(jbtzanYoudao);
@@ -670,7 +1032,7 @@ public class ClientSearch extends JFrame{
 		setLayout(new BorderLayout());
 		add(p012, BorderLayout.NORTH);
 		add(pcard,BorderLayout.CENTER);
-		add(pzan,BorderLayout.SOUTH);
+		//add(pzan,BorderLayout.SOUTH);
 		
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

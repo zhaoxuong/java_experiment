@@ -10,8 +10,8 @@ public class ClientSign extends JFrame{
 	private JTextField jtfAccount=new JTextField();
 	private JLabel jlblPassword=new JLabel("密码");
 	private JTextField jtfPassword=new JTextField();
-	private JButton jbtSignUp=new JButton("登录");
-	private JButton jbtSignIn=new JButton("注册");
+	private JButton jbtSignIn=new JButton("登录");
+	private JButton jbtSignUp=new JButton("注册");
 	
 	private Socket socket;
 	private DataInputStream fromServer;
@@ -22,8 +22,8 @@ public class ClientSign extends JFrame{
 		ClientSign clientSign=new ClientSign();
 	}
 	public ClientSign(){
-		jbtSignInSet();
 		jbtSignUpSet();
+		jbtSignInSet();
 		
 		Panel p1=new Panel();
 		p1.setLayout(new BorderLayout());
@@ -37,8 +37,8 @@ public class ClientSign extends JFrame{
 		
 		Panel p3=new Panel();
 		p3.setLayout(new GridLayout(1, 2));
-		p3.add(jbtSignUp);
 		p3.add(jbtSignIn);
+		p3.add(jbtSignUp);
 		
 		setLayout(new GridLayout(3, 1));
 		add(p1);
@@ -49,81 +49,22 @@ public class ClientSign extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Sign");
 		setSize(300, 300);
+		setLocation(0, 600);
 		setVisible(true);
 	}
 	
-	public void jbtSignInSet(){
-		jbtSignIn.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				signInFrame();//弹出一个框，提示输入用户名与密码
-			}
-		});
-	}
-
 	public void jbtSignUpSet(){
 		jbtSignUp.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(jtfAccount.getText().length()!=0&&jtfPassword.getText().length()!=0){
-					try{
-						socket=new Socket("localhost", 10085);
-					}
-					catch (IOException ex) {
-						// TODO: handle exception
-						System.err.println(ex);
-					}
-					signUpToServer();
-				}
+				signUpFrame();//弹出一个框，提示输入用户名与密码
 			}
 		});
 	}
-	public void signUpToServer(){
-		try{
-			toServer=new ObjectOutputStream(socket.getOutputStream());
-			toServer.writeObject(new Account(jtfAccount.getText(), jtfPassword.getText()));
-			fromServer=new DataInputStream(socket.getInputStream());
-			int i=fromServer.readInt();
-			if(i==1){
-				new ClientSearch();
-			}
-			else{
-				System.out.println("用户密码错误！");
-			}
-		}
-		catch (IOException e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-	}
-	public void signInFrame(){
-		JLabel jlblAccount=new JLabel("账号");
-		JTextField jtfAccount=new JTextField();
-		JLabel jlblPassword=new JLabel("密码");
-		JTextField jtfPassword=new JTextField();
-		JButton jbtSignIn=new JButton("注册");
-		JFrame jFrame=new JFrame("SignIn");
-		Panel p1=new Panel();
-		p1.setLayout(new BorderLayout());
-		p1.add(jlblAccount, BorderLayout.WEST);
-		p1.add(jtfAccount, BorderLayout.CENTER);
-		Panel p2=new Panel();
-		p2.setLayout(new BorderLayout());
-		p2.add(jlblPassword, BorderLayout.WEST);
-		p2.add(jtfPassword, BorderLayout.CENTER);
-		jFrame.setLayout(new GridLayout(3, 1));
-		jFrame.add(p1);
-		jFrame.add(p2);
-		jFrame.add(jbtSignIn);
-		jFrame.setLocationRelativeTo(null);
-		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jFrame.setTitle("SignIn");
-		jFrame.setSize(300, 300);
-		jFrame.setVisible(true);
+
+	public void jbtSignInSet(){
 		jbtSignIn.addActionListener(new ActionListener() {
 			
 			@Override
@@ -147,14 +88,74 @@ public class ClientSign extends JFrame{
 			toServer=new ObjectOutputStream(socket.getOutputStream());
 			toServer.writeObject(new Account(jtfAccount.getText(), jtfPassword.getText()));
 			fromServer=new DataInputStream(socket.getInputStream());
-			int i=fromServer.readInt();
-			if(i==1){
-				System.out.println("注册成功！");
+			boolean b=fromServer.readBoolean();
+			if(b){
+				new ClientSearch();
+			}
+			else{
+				System.out.println("用户密码错误！");
 			}
 		}
 		catch (IOException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+	}
+	public void signUpFrame(){
+		JLabel jlblAccount1=new JLabel("账号");
+		JTextField jtfAccount1=new JTextField();
+		JLabel jlblPassword1=new JLabel("密码");
+		JTextField jtfPassword1=new JTextField();
+		JButton jbtSignUp1=new JButton("注册");
+		JFrame jFrame1=new JFrame("SignUp");
+		Panel p11=new Panel();
+		p11.setLayout(new BorderLayout());
+		p11.add(jlblAccount1, BorderLayout.WEST);
+		p11.add(jtfAccount1, BorderLayout.CENTER);
+		Panel p21=new Panel();
+		p21.setLayout(new BorderLayout());
+		p21.add(jlblPassword1, BorderLayout.WEST);
+		p21.add(jtfPassword1, BorderLayout.CENTER);
+		jFrame1.setLayout(new GridLayout(3, 1));
+		jFrame1.add(p11);
+		jFrame1.add(p21);
+		jFrame1.add(jbtSignUp1);
+		jFrame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jFrame1.setTitle("SignUp");
+		jFrame1.setSize(300, 300);
+		jFrame1.setVisible(true);
+		jFrame1.setLocation(540, 600);
+		jbtSignUp1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(jtfAccount1.getText().length()!=0&&jtfPassword1.getText().length()!=0){
+					try{
+						socket=new Socket("localhost", 10085);
+					}
+					catch (IOException ex) {
+						// TODO: handle exception
+						System.err.println(ex);
+					}
+					try{
+						toServer=new ObjectOutputStream(socket.getOutputStream());
+						toServer.writeObject(new Account(jtfAccount1.getText(), jtfPassword1.getText()));
+						fromServer=new DataInputStream(socket.getInputStream());
+						boolean b=fromServer.readBoolean();
+						if(b){
+							System.out.println("注册成功！");
+						}
+						else{
+							System.out.println("注册失败!存在此用户");
+						}
+					}
+					catch (IOException ex) {
+						// TODO: handle exception
+						ex.printStackTrace();
+					}
+				}
+			}
+		});
 	}
 }

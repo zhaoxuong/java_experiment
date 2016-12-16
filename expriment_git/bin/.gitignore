@@ -1,5 +1,4 @@
-/client/
-/data/
-/def/
-/head/
 /server/
+/head/
+/data/
+/client/

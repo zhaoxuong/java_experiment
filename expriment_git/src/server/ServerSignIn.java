@@ -2,22 +2,33 @@ package server;
 
 import java.io.*;
 import java.net.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import javax.swing.*;
 import java.util.Date;
+import java.util.Vector;
 import java.awt.*;
 
 import head.*;
-import data.*;
 
 public class ServerSignIn extends JFrame{
 	
-	public ServerSignIn() {
+	Connection connection = null;
+	Statement statement = null;
+	ResultSet resultSet = null;
+
+	public ServerSignIn(Connection c) {
+		connection=c;
 		JTextArea jtaLog = new JTextArea();
 		JScrollPane scrollPane = new JScrollPane(jtaLog);
 		add(scrollPane, BorderLayout.CENTER);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(300, 300);
-		setTitle("ServerSignIn");
+		setSize(500, 500);
+		setTitle("SignInServer");//µÇÂ¼
+		setLocation(520, 0);
 		setVisible(true);
 		try {
 			ServerSocket serverSocket = new ServerSocket(10084);
@@ -49,9 +60,10 @@ public class ServerSignIn extends JFrame{
 				while (true) {
 					fromClient=new ObjectInputStream(client.getInputStream());
 					Object object=fromClient.readObject();
-					Data.accountData.update((Account)object);
+					boolean b = false;
+					b = log(object);
 					toClient=new DataOutputStream(client.getOutputStream());
-					toClient.writeInt(1);
+					toClient.writeBoolean(b);
 				}
 			} catch (ClassNotFoundException e) {
 				// TODO: handle exception
@@ -60,6 +72,27 @@ public class ServerSignIn extends JFrame{
 				// TODO: handle exception
 				System.err.println(e);
 			}
+		}
+		public boolean log(Object o){
+			String a = ((Account) o).getAccount();
+			String p = ((Account) o).getPassword();
+
+
+			try {
+				statement = connection.createStatement();
+				resultSet = statement
+						.executeQuery("SELECT aString, pString FROM [dbo].[Account] WHERE aString='" + a + "' AND pString='" + p + "'");
+				if (resultSet.next()) {
+						return true;
+				} 
+				else {
+					return false;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return false;
 		}
 	}
 }

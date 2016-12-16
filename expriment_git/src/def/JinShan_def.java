@@ -17,6 +17,12 @@ public class JinShan_def {
 
  
  private String doctype = "xml";
+ 
+ public JinShan_def(String str) throws Exception{
+	 // TODO Auto-generated constructor stub
+	 getJinShanValue(str);
+}
+
 
  
  private String sendGet(String str) throws Exception{
@@ -122,14 +128,18 @@ public class JinShan_def {
   return result;
   
  }
+ 
+ public String [] getGetresult() {
+		return getresult;
+	}
 
  public static void main(String[] args) throws Exception{
 
   String str = "java";
 
-  JinShan_def test = new JinShan_def();
+  JinShan_def test = new JinShan_def(str);
   
-  String temp = test.getJinShanValue(str);
+  //String temp = test.getJinShanValue(str);
  // System.out.println(temp);
  }
 }

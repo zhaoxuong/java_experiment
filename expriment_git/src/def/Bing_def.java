@@ -11,14 +11,17 @@ public class Bing_def {
  private String url = "http://xtk.azurewebsites.net/BingDictService.aspx";
  private String [] getresult=new String[100];
  private int count=0;
+ 
 
  
  //private String keyfrom = "zhaoxiong-122";
 // private String key = "78059181E8F2E448260E590E98B30347";
-
- 
  private String doctype = "xml";
  
+ public Bing_def(String str) throws Exception{
+	 // TODO Auto-generated constructor stub
+	 getBingValue(str);
+}
 
  
  private String sendGet(String str) throws Exception{
@@ -66,7 +69,7 @@ public class Bing_def {
  
  
  
- public String getJinShanValue(String str) throws Exception{
+ public String getBingValue(String str) throws Exception{
   String result = null;
 
   // ∑¢ÀÕGET«Î«Û∑≠“Î
@@ -85,9 +88,9 @@ public class Bing_def {
 	  String in2=result.substring(re3+7,re4);
 	  System.out.println(in1);
 	  System.out.println(in2);
-	  getresult[count]=in1;
+	  getGetresult()[count]=in1;
 	  count++;
-	  getresult[count]=in2;
+	  getGetresult()[count]=in2;
 	  count++;
 	  result=result.substring(re4+4);
 	  re1=result.indexOf("\"pos\":\"");
@@ -112,9 +115,9 @@ public class Bing_def {
 	  String in2=result.substring(re3+7,re4);
 	  System.out.println(in1);
 	  System.out.println(in2);
-	  getresult[count]=in1;
+	  getGetresult()[count]=in1;
 	  count++;
-	  getresult[count]=in2;
+	  getGetresult()[count]=in2;
 	  count++;
 	  result=result.substring(re4+3);
 	  re1=result.indexOf("\"eng\":\"");
@@ -135,11 +138,19 @@ public class Bing_def {
 
   String str = "java";
 
-  Bing_def test = new Bing_def();
+  Bing_def test = new Bing_def(str);
   
-  String temp = test.getJinShanValue(str);
+  //String temp = test.getJinShanValue(str);
  // System.out.println(temp);
  }
+
+
+public String [] getGetresult() {
+	return getresult;
+}
+
+
+
 }
 
 

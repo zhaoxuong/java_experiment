@@ -18,6 +18,11 @@ public class YouDaodef {
 
  
  private String doctype = "xml";
+ public YouDaodef(String str) throws Exception{
+	 // TODO Auto-generated constructor stub
+	 getYouDaoValue(str);
+}
+
 
  
  private String sendGet(String str) throws Exception{
@@ -173,13 +178,17 @@ public class YouDaodef {
   return result;
  }
 
+ 
+ public String [] getGetresult() {
+		return getresult;
+	}
  public static void main(String[] args) throws Exception{
 
   String str = "java";
 
-  YouDaodef test = new YouDaodef();
+  YouDaodef test = new YouDaodef(str);
   
-  String temp = test.getYouDaoValue(str);
+  //String temp = test.getYouDaoValue(str);
  // System.out.println(temp);
  }
 }

@@ -227,9 +227,11 @@ public class ClientSearch extends JFrame{
 	private JTextArea jtaYoudao1=new JTextArea(),jtaYoudao2=new JTextArea(),jtaYoudao3=new JTextArea(),jtaYoudao4=new JTextArea();
 	private JLabel jlblBing1,jlblBing2,jlblBing3,jlblBing4;
 	private JTextArea jtaBing1=new JTextArea(),jtaBing2=new JTextArea(),jtaBing3=new JTextArea(),jtaBing4=new JTextArea();
-	
+	private JList<String> jluser=new JList<String>();
+	private JList<String> jlword=new JList<String>();
 	
 	private JPanel pcard=new JPanel();//为了cardLayout 需要7个组件，不能在不同的Jpanel中调用加入同一个组件，所以备份了4个一样的组件
+	
 	
 	//private JLabel  jlblzan;
 	/*private JLabel jlblzanBaidu=new JLabel("金山");
@@ -324,7 +326,7 @@ public class ClientSearch extends JFrame{
 					}
 				else
 					{
-					jlblYoudao1.setIcon(icon4);
+					jlblYoudao1.setIcon(icon2);
 					jlblYoudao2.setIcon(icon2);
 					jlblYoudao3.setIcon(icon2);
 					jlblYoudao4.setIcon(icon2);
@@ -646,7 +648,7 @@ public class ClientSearch extends JFrame{
 			}
 		});
 		
-	}
+	}//花了很大功夫来解决cardlayout，主要是因为需要备份4个备份的组件
 	public void jtabaiduset(){//输出框设置
 		jtaBaidu1.setBorder(BorderFactory.createLineBorder(Color.red,1));
 		jtaBing1.setBorder(BorderFactory.createLineBorder(Color.red,1));
@@ -814,7 +816,9 @@ public class ClientSearch extends JFrame{
 		JScrollPane jsBing1=new JScrollPane(jtaBing1);
 		JScrollPane jsBing2=new JScrollPane(jtaBing2);
 		JScrollPane jsBing3=new JScrollPane(jtaBing3);
-		JScrollPane jsBing4=new JScrollPane(jtaBing4);//做滚动条处理
+		JScrollPane jsBing4=new JScrollPane(jtaBing4);
+		JScrollPane jsuser=new JScrollPane(jluser);
+		JScrollPane jsword=new JScrollPane(jlword);//做滚动条处理
 		
 		
 		
@@ -966,56 +970,17 @@ public class ClientSearch extends JFrame{
 		});
          
          
+       
          
-		/*JPanel pzan=new JPanel();
-		pzan.setLayout(new GridLayout(1, 7,2,1));
-		pzan.add(jlblzan);
-		/*pzan.add(pzan1);
-		pzan.add(pzan2);
-		pzan3.add(pzan3);
-		pzan.add(jbtzanBaidu);
-		pzan.add(jlblzanBaidu);
-		pzan.add(jbtzanYoudao);
-		pzan.add(jlblzanYoudao);
-		pzan.add(jbtzanBing);
-		pzan.add(jlblzanBing);
-		
-		jbtzanBaidu.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				flagBaidu=1-flagBaidu;
-				if(flagBaidu==1)
-					 jbtzanBaidu.setBackground(Color.red);
-				else
-					 jbtzanBaidu.setBackground(Color.GRAY);
-			}
-		});
-         jbtzanYoudao.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				flagYoudao=1-flagYoudao;
-				if(flagYoudao==1)
-					 jbtzanYoudao.setBackground(Color.red);
-				else
-					 jbtzanYoudao.setBackground(Color.GRAY);
-			}
-		});
-         jbtzanBing.addActionListener(new ActionListener() {
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		flagBing=1-flagBing;
-		if(flagBing==1)
-			 jbtzanBing.setBackground(Color.red);
-		else
-			 jbtzanBing.setBackground(Color.GRAY);
-	}
-});
+         
+         
+         JPanel pleft=new JPanel();
+        pleft.setLayout(new GridLayout(2,1,10,0));
+        pleft.add(jsuser);
+        pleft.add(jsword);//右面用户状态栏
+        
+        
+
 		
 		
 		
@@ -1023,15 +988,14 @@ public class ClientSearch extends JFrame{
 		
 		
 		
-		/*JPanel p345=new JPanel();
-		p345.setLayout(new GridLayout(3, 1,1,5));
-		p345.add(p3);
-		p345.add(p4);
-		p345.add(p5);*/
 		
-		setLayout(new BorderLayout());
-		add(p012, BorderLayout.NORTH);
-		add(pcard,BorderLayout.CENTER);
+		JPanel plast=new JPanel();
+		plast.setLayout(new BorderLayout());
+		plast.add(p012, BorderLayout.NORTH);
+		plast.add(pcard,BorderLayout.CENTER);
+		setLayout(new FlowLayout());
+		add(plast);
+		add(pleft);
 		//add(pzan,BorderLayout.SOUTH);
 		
 		setLocationRelativeTo(null);

@@ -7,4 +7,15 @@ public interface Constant {
 	
 	public static final String APP_ID = "20161122000032540";
     public static final String SECURITY_KEY = "1P6gEol42vjMzwuUXQUZ";
+    
+    //best
+    public static int BAIDU=1;
+    public static int YOUDAO=2;
+    public static int BING=3;
+    
+    public static String driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    public static String dbURL = "jdbc:sqlserver://localhost:1433;DatabaseName=java";
+    public static String userName = "sa";
+    public static String userPwd = "sa";
+    
 }

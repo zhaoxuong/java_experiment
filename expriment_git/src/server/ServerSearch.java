@@ -2,22 +2,27 @@ package server;
 
 import java.io.*;
 import java.net.*;
+import java.sql.Connection;
+
 import javax.swing.*;
 import java.util.Date;
 import java.awt.*;
 
-import data.*;
 import head.*;
 
 public class ServerSearch extends JFrame {
 
-	public ServerSearch() {
+	Connection connection = null;
+	
+	public ServerSearch(Connection c) {
+		connection=c;
 		JTextArea jtaLog = new JTextArea();
 		JScrollPane scrollPane = new JScrollPane(jtaLog);
 		add(scrollPane, BorderLayout.CENTER);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(300, 300);
-		setTitle("DictionaryServer");
+		setSize(500, 500);
+		setTitle("SearchServer");
+		setLocation(1040, 0);
 		setVisible(true);
 		try {
 			ServerSocket serverSocket = new ServerSocket(10086);
@@ -52,7 +57,7 @@ public class ServerSearch extends JFrame {
 				while (true) {
 					fromClient = new ObjectInputStream(client.getInputStream());
 					Object object = fromClient.readObject();
-					object = Data.wordData.update((WordZan) object);
+//					object = Data.wordData.update((WordZan) object);
 					toClient = new ObjectOutputStream(client.getOutputStream());
 					toClient.writeObject(object);
 					toClient.writeObject(new String(((WordZan)object).getWord()));

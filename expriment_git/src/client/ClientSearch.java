@@ -37,13 +37,20 @@ public class ClientSearch extends JFrame implements Constant {
 	private JLabel jlblBing1, jlblBing2, jlblBing3, jlblBing4;
 	private JTextArea jtaBing1 = new JTextArea(), jtaBing2 = new JTextArea(), jtaBing3 = new JTextArea(),
 			jtaBing4 = new JTextArea();
+	
+	
+	private JLabel jlause=new JLabel();
+	private JLabel jlaword=new JLabel();
+	
 	private JList<String> jluser = new JList<String>();
 	private JList<String> jlword = new JList<String>();
 
-	private JPanel pcard = new JPanel();// 为了cardLayout
+	private JPanel pcard = new JPanel();
+	private JPanel pcard1 = new JPanel();
+	private JPanel pcard2 = new JPanel();// 为了cardLayout
 										// 需要7个组件，不能在不同的Jpanel中调用加入同一个组件，所以备份了4个一样的组件
 
-
+	
 	private int flag1;
 	private int flag2;
 	private int flag3;
@@ -99,8 +106,22 @@ public class ClientSearch extends JFrame implements Constant {
 		ImageIcon icon5 = new ImageIcon("有道蓝色.png");
 		ImageIcon icon6 = new ImageIcon("必应蓝色.png");
 		ImageIcon icon7 = new ImageIcon("赞.png");
+		ImageIcon icon8 = new ImageIcon("左滑.png");
+		ImageIcon icon9 = new ImageIcon("右滑.png");
+		
+		jlause=new JLabel(icon8);
+		jlause.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e){
+				((CardLayout) pcard1.getLayout()).show(pcard1, "second");
+			}
+		});
+		jlaword=new JLabel(icon9);
+		jlaword.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e){
+				((CardLayout) pcard2.getLayout()).show(pcard2, "second");
+			}
+		});
 		jlblBaidu1 = new JLabel(icon1, SwingConstants.LEFT);
-
 		jlblBaidu1.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
@@ -457,6 +478,29 @@ public class ClientSearch extends JFrame implements Constant {
 
 	}// 花了很大功夫来解决cardlayout，主要是因为需要备份4个备份的组件
 
+	public void jlistset(){//Jlist的设置 目前可能会和点击事件冲突
+		jluser.setPreferredSize(new Dimension(100, 250));
+		jluser.setBorder(BorderFactory.createLineBorder(Color.red, 1));
+		jluser.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e){
+				if(e.getClickCount()==2)
+				 ((CardLayout) pcard1.getLayout()).show(pcard1, "first");
+			}
+			
+			/*public void mouseExited(MouseEvent e) {
+				
+				((CardLayout) pcard1.getLayout()).show(pcard1, "first");
+			}*/
+		});
+		jlword.setPreferredSize(new Dimension(100, 250));
+		jlword.setBorder(BorderFactory.createLineBorder(Color.red, 1));
+		jlword.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e){
+				if(e.getClickCount()==2)
+				((CardLayout) pcard2.getLayout()).show(pcard2, "first");
+			}
+		});
+	}
 	public void jtabaiduset() {// 输出框设置
 
 		jtaBaidu1.setBorder(BorderFactory.createLineBorder(Color.red, 1));
@@ -549,31 +593,68 @@ public class ClientSearch extends JFrame implements Constant {
 				countYoudao = 0;
 				countBing = 0;
 				countBaidu = fromServer1.readInt();
+				jtaBaidu1.setText(null);
+				jtaBaidu2.setText(null);
+				jtaBaidu3.setText(null);
+				jtaBaidu4.setText(null);
+				jtaYoudao1.setText(null);
+				jtaYoudao2.setText(null);
+				jtaYoudao3.setText(null);
+				jtaYoudao4.setText(null);
+				jtaBing1.setText(null);
+				jtaBing1.setText(null);
+				jtaBing1.setText(null);
+				jtaBing1.setText(null);
 				for (int i = 0; i < countBaidu; i++) {
 					resultBaidu[i] = fromServer1.readUTF();
-					jtaBaidu1.append("ok1");
-					jtaBaidu2.append("ok1");
-					jtaBaidu3.append("ok1");
-					jtaBaidu4.append("ok1");
+					jtaBaidu1.append(resultBaidu[i]);
+					jtaBaidu2.append(resultBaidu[i]);
+					jtaBaidu3.append(resultBaidu[i]);
+					jtaBaidu4.append(resultBaidu[i]);
+					jtaBaidu1.append("\n");
+					jtaBaidu2.append("\n");
+					jtaBaidu3.append("\n");
+					jtaBaidu4.append("\n");
+					
 				}
+				jtaBaidu1.setCaretPosition(0);
+				jtaBaidu2.setCaretPosition(0);
+				jtaBaidu3.setCaretPosition(0);
+				jtaBaidu4.setCaretPosition(0);
 				countYoudao = fromServer1.readInt();
 				for (int i = 0; i < countYoudao; i++) {
 					resultYoudao[i] = fromServer1.readUTF();
-					jtaYoudao1.append("ok2");
-					jtaYoudao2.append("ok2");
-					jtaYoudao3.append("ok2");
-					jtaYoudao4.append("ok2");
+					jtaYoudao1.append(resultYoudao[i]);
+					jtaYoudao2.append(resultYoudao[i]);
+					jtaYoudao3.append(resultYoudao[i]);
+					jtaYoudao4.append(resultYoudao[i]);
+					jtaYoudao1.append("\n");
+					jtaYoudao2.append("\n");
+					jtaYoudao3.append("\n");
+					jtaYoudao4.append("\n");
 					
 				}
+				jtaYoudao1.setCaretPosition(0);
+				jtaYoudao2.setCaretPosition(0);
+				jtaYoudao3.setCaretPosition(0);
+				jtaYoudao4.setCaretPosition(0);
 				countBing = fromServer1.readInt();
 				for (int i = 0; i < countBing; i++) {
 					resultBing[i] = fromServer1.readUTF();
-					jtaBing1.append("ok1");
-					jtaBing2.append("ok1");
-					jtaBing3.append("ok1");
-					jtaBing4.append("ok1");
-					
+					jtaBing1.append(resultBing[i]);
+					jtaBing2.append(resultBing[i]);
+					jtaBing3.append(resultBing[i]);
+					jtaBing4.append(resultBing[i]);
+					jtaBing1.append("\n");
+					jtaBing2.append("\n");
+					jtaBing3.append("\n");
+					jtaBing4.append("\n");
 				}
+				jtaBing1.setCaretPosition(0);
+				jtaBing2.setCaretPosition(0);
+				jtaBing3.setCaretPosition(0);
+				jtaBing4.setCaretPosition(0);
+				
 				System.out.print("baidu:  " + countBaidu + "    ");
 				System.out.println(wordZan.getBaidu());
 				System.out.print("youdao:  " + countYoudao + "    ");
@@ -714,6 +795,7 @@ public class ClientSearch extends JFrame implements Constant {
 		jtfWordSet();
 		jbtSearchSet();
 		jbxbaiduset();
+		jlistset();
 		JScrollPane jsBaidu1 = new JScrollPane(jtaBaidu1);
 		JScrollPane jsBaidu2 = new JScrollPane(jtaBaidu2);
 		JScrollPane jsBaidu3 = new JScrollPane(jtaBaidu3);
@@ -728,8 +810,8 @@ public class ClientSearch extends JFrame implements Constant {
 		JScrollPane jsBing4 = new JScrollPane(jtaBing4);
 		JScrollPane jsuser = new JScrollPane(jluser);
 		JScrollPane jsword = new JScrollPane(jlword);
-		 jsword.setPreferredSize(new java.awt.Dimension(100, 100));
-		 jsuser.setPreferredSize(new java.awt.Dimension(100, 100));// 做滚动条处理
+		 jsword.setPreferredSize(new java.awt.Dimension(100, 200));
+		 jsuser.setPreferredSize(new java.awt.Dimension(100, 200));// 做滚动条处理
 
 		JPanel p1 = new JPanel();
 		p1.setLayout(new BorderLayout());
@@ -837,10 +919,10 @@ public class ClientSearch extends JFrame implements Constant {
 
 		
 
-		JPanel pleft = new JPanel();
+		/*JPanel pleft = new JPanel();
 		pleft.setLayout(new GridLayout(2, 1, 10, 20));
 		pleft.add(jsuser);
-		pleft.add(jsword);// 右面用户状态栏
+		pleft.add(jsword);// 右面用户状态栏*/
 		
 		//pleft.setBounds(580, 300, 40, 300);
 
@@ -850,10 +932,34 @@ public class ClientSearch extends JFrame implements Constant {
 		plast.add(pcard, BorderLayout.CENTER);
 		
 		plast.setPreferredSize(new Dimension(600, 500));
+		
 		//add(plast);
 		//add(pleft,BorderLayout.EAST);
-		setLayout(new FlowLayout());
+		pcard1.setLayout(new CardLayout());
+		pcard1.add(jlause, "first");
+		pcard1.add(jluser, "second");
+		((CardLayout) pcard1.getLayout()).show(pcard1, "first");
+		
+		pcard2.setLayout(new CardLayout());
+		pcard2.add(jlaword, "first");
+		pcard2.add(jlword, "second");
+		((CardLayout) pcard2.getLayout()).show(pcard2, "first");
+		
+		
+		JPanel puser=new JPanel();
+		puser.setLayout(new FlowLayout(FlowLayout.LEFT));
+		puser.add(pcard1);
+		
+		JPanel pword=new JPanel();
+		pword.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		pword.add(pcard2);
+		
+		setLayout(new FlowLayout(FlowLayout.CENTER));
+		add(puser);
 		add(plast);
+		add(pword);
+		
+		
 		//add(pleft,BorderLayout.EAST);
 
 		//pleft.setBounds(580, 300, 40, 300);
@@ -862,7 +968,7 @@ public class ClientSearch extends JFrame implements Constant {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Dictionary");
-		setSize(1000, 600);
+		setSize(860, 600);
 		setVisible(true);
 	}
 }

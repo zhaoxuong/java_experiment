@@ -90,7 +90,7 @@ public class ClientSign extends JFrame{
 			fromServer=new DataInputStream(socket.getInputStream());
 			boolean b=fromServer.readBoolean();
 			if(b){
-				new ClientSearch();
+				new ClientSearch(jtfAccount.getText());
 			}
 			else{
 				System.out.println("ÓÃ»§ÃÜÂë´íÎó£¡");

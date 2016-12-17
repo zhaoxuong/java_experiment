@@ -18,12 +18,4 @@ public class Account implements Serializable{
 	public String getPassword(){
 		return pString;
 	}
-	public boolean equals(Object o){
-		if(aString.equals(((Account)o).getAccount())&&pString.equals(((Account)o).getPassword())){
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
 }

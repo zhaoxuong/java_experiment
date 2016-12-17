@@ -7,6 +7,7 @@ public class WordZan implements Serializable{//某个单词的赞数目
 	private int baidu=0;
 	private int youdao=0;
 	private int bing=0;
+	private boolean type;//true: 搜索 false: 点赞
 	public WordZan(){
 		;
 	}
@@ -14,12 +15,10 @@ public class WordZan implements Serializable{//某个单词的赞数目
 		word=w;
 	}
 	public void update(WordZan w){//赞数跟新
-		if(w.getBaidu()>baidu)
-			baidu=w.getBaidu();
-		if(w.getYoudao()>youdao)
-			youdao=w.getYoudao();
-		if(w.getBing()>bing)
-			bing=w.getBing();
+		baidu=w.getBaidu();
+		youdao=w.getYoudao();
+		bing=w.getBing();
+		type=w.getType();
 	}
 	public String getWord(){
 		return word;
@@ -54,12 +53,10 @@ public class WordZan implements Serializable{//某个单词的赞数目
 	public void addBing(){
 		bing++;
 	}
-	public boolean equals(Object w){
-		if(word.equals(((WordZan)w).getWord())){
-			return true;
-		}
-		else{
-			return false;
-		}
+	public boolean getType(){
+		return type;
+	}
+	public void setType(boolean b){
+		type=b;
 	}
 }

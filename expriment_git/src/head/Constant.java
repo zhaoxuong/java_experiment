@@ -18,4 +18,7 @@ public interface Constant {
     public static String userName = "sa";
     public static String userPwd = "sa";
     
+    public static int ADD=1;
+    public static int DELETE=2;
+    public static int UPDATE=3;
 }

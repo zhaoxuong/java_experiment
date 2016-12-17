@@ -47,6 +47,7 @@ public class ServerSignIn extends JFrame{
 	}
 
 	class Task implements Runnable, Constant {
+		private String tAccount;
 		private Socket client;
 		ObjectInputStream fromClient;
 		DataOutputStream toClient;
@@ -61,6 +62,7 @@ public class ServerSignIn extends JFrame{
 					fromClient=new ObjectInputStream(client.getInputStream());
 					Object object=fromClient.readObject();
 					boolean b = false;
+					tAccount=((Account) object).getAccount();
 					b = log(object);
 					toClient=new DataOutputStream(client.getOutputStream());
 					toClient.writeBoolean(b);
@@ -70,7 +72,8 @@ public class ServerSignIn extends JFrame{
 				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO: handle exception
-				System.err.println(e);
+				System.err.println("ServerSignIn.73: "+e);
+				ActiveAccount.LogOut(tAccount);
 			}
 		}
 		public boolean log(Object o){
@@ -83,7 +86,8 @@ public class ServerSignIn extends JFrame{
 				resultSet = statement
 						.executeQuery("SELECT aString, pString FROM [dbo].[Account] WHERE aString='" + a + "' AND pString='" + p + "'");
 				if (resultSet.next()) {
-						return true;
+					ActiveAccount.LogIn(a);
+					return true;
 				} 
 				else {
 					return false;

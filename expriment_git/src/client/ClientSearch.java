@@ -1,202 +1,5 @@
 package client;
-//test
 
-//test2
-/*import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.net.Socket;
-import javax.swing.*;
-import javax.xml.soap.Text;
-
-import head.Constant;
-import head.WordZan;
-//赵雄：实现界面细节，设置字体大小，颜色等
-public class ClientSearch extends JFrame implements Constant{
-	private JLabel jlblTitle=new JLabel("My Dictionary");
-	
-	private JLabel jlblInput=new JLabel("Input");
-	private JTextField jtfWord=new JTextField();
-	private JButton jbtSearch=new JButton("Search");
-	
-	private JCheckBox jchkBaidu=new JCheckBox("百度");
-	private JCheckBox jchkYoudao=new JCheckBox("有道");
-	private JCheckBox jchkBing=new JCheckBox("必应");
-	
-	private JLabel jlblBaidu=new JLabel("百度");
-	private JTextArea jtaBaidu=new JTextArea();
-	private JButton jbtBaidu=new JButton("+1");
-	private JLabel jlblYoudao=new JLabel("有道");
-	private JTextArea jtaYoudao=new JTextArea();
-	private JButton jbtYoudao=new JButton("+1");
-	private JLabel jlblBing=new JLabel("必应");
-	private JTextArea jtaBing=new JTextArea();
-	private JButton jbtBing=new JButton("+1");
-	
-	private Socket socket;
-	private ObjectInputStream fromServer;
-	private ObjectOutputStream toServer;
-	
-	WordZan wordZan=new WordZan();//正在查询的单词
-	
-	public ClientSearch(){//构造函数
-		try{
-			socket=new Socket("localhost", 10086);
-			
-			jtfWordSet();
-			jbtSearchSet();
-			jbtBaiduSet();
-		}
-		catch (IOException e) {
-			// TODO: handle exception
-			System.err.println(e);
-		}
-		JPanel p1=new JPanel();
-		p1.setLayout(new BorderLayout());
-		p1.add(jlblInput, BorderLayout.WEST);
-		p1.add(jtfWord,BorderLayout.CENTER);
-		p1.add(jbtSearch,BorderLayout.EAST);
-		JPanel p2=new JPanel();
-		p2.setLayout(new GridLayout(1,3));
-		p2.add(jchkBaidu);
-		p2.add(jchkYoudao);
-		p2.add(jchkBing);
-		
-		JPanel p012=new JPanel();
-		p012.setLayout(new BorderLayout());
-		p012.add(jlblTitle, BorderLayout.NORTH);
-		p012.add(p1,BorderLayout.CENTER);
-		p012.add(p2,BorderLayout.SOUTH);
-		
-		JPanel p3=new JPanel();
-		p3.setLayout(new BorderLayout());
-		p3.add(jlblBaidu, BorderLayout.WEST);
-		p3.add(jtaBaidu,BorderLayout.CENTER);
-		p3.add(jbtBaidu,BorderLayout.EAST);
-		JPanel p4=new JPanel();
-		p4.setLayout(new BorderLayout());
-		p4.add(jlblYoudao, BorderLayout.WEST);
-		p4.add(jtaYoudao,BorderLayout.CENTER);
-		p4.add(jbtYoudao,BorderLayout.EAST);
-		JPanel p5=new JPanel();
-		p5.setLayout(new BorderLayout());
-		p5.add(jlblBing, BorderLayout.WEST);
-		p5.add(jtaBing,BorderLayout.CENTER);
-		p5.add(jbtBing,BorderLayout.EAST);
-		
-		JPanel p345=new JPanel();
-		p345.setLayout(new GridLayout(3, 1,1,5));
-		p345.add(p3);
-		p345.add(p4);
-		p345.add(p5);
-		
-		setLayout(new BorderLayout());
-		add(p012, BorderLayout.NORTH);
-		add(p345,BorderLayout.CENTER);
-		
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Dictionary");
-		setSize(600, 600);
-		setVisible(true);
-	}
-	public void TextSet(){//从服务器获取东西来填在客户端
-		try{
-			Object object=fromServer.readObject();
-			wordZan.update((WordZan)object);
-			jtaBaidu.setText((String)(fromServer.readObject())+wordZan.getBaidu());
-			jtaYoudao.setText((String)(fromServer.readObject())+wordZan.getYoudao());
-			jtaBing.setText((String)(fromServer.readObject())+wordZan.getBing());
-		}		
-		catch (ClassNotFoundException e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		catch (IOException e) {
-			// TODO: handle exception
-			System.err.println(e);
-		}
-	}
-	public void searchWord(String word){
-		try{
-			if(word.equals(wordZan.getWord())){
-				return;
-			}
-			else{
-				wordZan.setWord(word);
-				wordZan.setBaidu(0);
-				wordZan.setYoudao(0);
-				wordZan.setBing(0);
-			}
-			toServer=new ObjectOutputStream(socket.getOutputStream());
-			toServer.writeObject(wordZan);
-			fromServer=new ObjectInputStream(socket.getInputStream());
-			TextSet();
-		}
-		catch (IOException e) {
-			// TODO: handle exception
-			System.err.println(e);
-		}
-	}
-	
-	
-	public void jtfWordSet(){
-		jtfWord.registerKeyboardAction(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				searchWord(jtfWord.getText());
-			}
-		}, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
-	}
-	
-	public void jbtSearchSet() {
-//		jbtSearch.setToolTipText("click to search");
-		jbtSearch.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				searchWord(jtfWord.getText());
-			}
-		});
-	}
-	public void addZan(int type) {
-		if(wordZan.getWord().equals("")){
-			return;
-		}
-		if(type==ZANBAIDU){
-			wordZan.addBaidu();
-		}
-		else if(type==ZANYOUDAO){
-			wordZan.addYoudao();
-		}
-		else{
-			wordZan.addBing();
-		}
-		try{
-			toServer=new ObjectOutputStream(socket.getOutputStream());
-			toServer.writeObject(wordZan);
-			fromServer=new ObjectInputStream(socket.getInputStream());
-			TextSet();
-		}
-		catch (IOException e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-	}
-	public void jbtBaiduSet(){
-		jbtBaidu.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				addZan(ZANBAIDU);
-			}
-		});
-	}
-}*/
 
 //test
 import java.awt.*;
@@ -217,7 +20,7 @@ import head.WordZan;
 public class ClientSearch extends JFrame implements Constant {
 	private JLabel jlblTitle = new JLabel("My Dictionary");// 开头的名称
 
-	private JLabel jlblInput = new JLabel("Input");// input
+	private JLabel jlblInput = new JLabel();// input
 	private JTextField jtfWord = new JTextField();// input 输入框
 	private JButton jbtSearch = new JButton("Search");// search 按钮
 
@@ -240,15 +43,7 @@ public class ClientSearch extends JFrame implements Constant {
 	private JPanel pcard = new JPanel();// 为了cardLayout
 										// 需要7个组件，不能在不同的Jpanel中调用加入同一个组件，所以备份了4个一样的组件
 
-	// private JLabel jlblzan;
-	/*
-	 * private JLabel jlblzanBaidu=new JLabel("金山"); private JLabel
-	 * jlblzanYoudao=new JLabel("有道"); private JLabel jlblzanBing=new
-	 * JLabel("必应"); private JButton jbtzanBaidu,jbtzanYoudao,jbtzanBing;
-	 * private int flagBaidu,flagYoudao,flagBing;
-	 */
 
-	// test
 	private int flag1;
 	private int flag2;
 	private int flag3;
@@ -279,15 +74,20 @@ public class ClientSearch extends JFrame implements Constant {
 	 * }
 	 */
 	public void jlblTitleset() {// 设置标题
-		jlblTitle.setFont(new Font("Serif", Font.BOLD, 20));
+		jlblTitle.setFont(new Font("Serif", Font.BOLD, 13));
 		jlblTitle.setBackground(Color.GRAY);
+		jlblTitle.setPreferredSize(new Dimension(100, 30));
 
 	}
 
 	public void jlbinputset() {// 输入标签的设置
-		jlblInput.setFont(new Font("Serif", Font.BOLD, 15));
+		jlblInput.setFont(new Font("Serif", Font.BOLD, 10));
 		jlblInput.setBackground(Color.BLACK);
-		jbtSearch.setFont(new Font("Serif", Font.ITALIC | Font.BOLD, 20));
+		ImageIcon icon1 = new ImageIcon("搜索.png");
+		jlblInput.setIcon(icon1);
+		jlblInput.setPreferredSize(new Dimension(50, 10));
+		jbtSearch.setFont(new Font("TimesRoman", Font.BOLD, 10));
+		jbtSearch.setPreferredSize(new Dimension(80, 10));
 		// jbtSearch.setBackground(Color.GRAY);
 	}
 
@@ -658,6 +458,7 @@ public class ClientSearch extends JFrame implements Constant {
 	}// 花了很大功夫来解决cardlayout，主要是因为需要备份4个备份的组件
 
 	public void jtabaiduset() {// 输出框设置
+
 		jtaBaidu1.setBorder(BorderFactory.createLineBorder(Color.red, 1));
 		jtaBing1.setBorder(BorderFactory.createLineBorder(Color.red, 1));
 		jtaYoudao1.setBorder(BorderFactory.createLineBorder(Color.red, 1));
@@ -673,6 +474,49 @@ public class ClientSearch extends JFrame implements Constant {
 
 	}
 
+	public void jbxbaiduset(){//复选框设置
+		jchkBaidu.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (jchkBaidu.isSelected())
+					flag1 = 1;
+				else
+					flag1 = 0;
+				whichshow();
+				// System.out.println(flag1+" "+flag2+flag3);
+
+			}
+		});
+		jchkYoudao.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (jchkYoudao.isSelected())
+					flag2 = 1;
+				else
+					flag2 = 0;
+				whichshow();
+
+			}
+		});
+		jchkBing.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (jchkBing.isSelected())
+					flag3 = 1;
+				else
+					flag3 = 0;
+				whichshow();
+
+			}
+		});
+		
+	}
 	public void jtfWordSet() {// 输入框设置,当按下火车时调用searchword方法，即相当于搜索单词
 		jtfWord.setFont(new Font(Font.DIALOG, Font.PLAIN | Font.ROMAN_BASELINE, 20));
 		jtfWord.setBackground(Color.white);
@@ -688,25 +532,7 @@ public class ClientSearch extends JFrame implements Constant {
 		}, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 	}
 
-	/*
-	 * public void jlblzanset(){//赞标签的设置 jlblzan=new JLabel("亲，求赞哦");
-	 * jlblzan.setFont(new Font("Serif", Font.BOLD, 15));
-	 * jlblzan.setBackground(Color.BLACK); jlblzanBaidu.setFont(new
-	 * Font("Serif", Font.BOLD, 15)); jlblzanBaidu.setBackground(Color.BLACK);
-	 * jlblzanYoudao.setFont(new Font("Serif", Font.BOLD, 15));
-	 * jlblzanYoudao.setBackground(Color.BLACK); jlblzanBing.setFont(new
-	 * Font("Serif", Font.BOLD, 15)); jlblzanBing.setBackground(Color.BLACK);
-	 * 
-	 * }
-	 * 
-	 * public void jbtzanset(){//赞按钮设置2 jbtzanBaidu=new JButton("赞");
-	 * jbtzanBaidu.setFont(new Font("Serif", Font.ITALIC | Font.BOLD, 20));
-	 * jbtzanBaidu.setBackground(Color.gray); jbtzanYoudao=new JButton("赞");
-	 * jbtzanYoudao.setFont(new Font("Serif", Font.ITALIC | Font.BOLD, 20));
-	 * jbtzanYoudao.setBackground(Color.gray); jbtzanBing=new JButton("赞");
-	 * jbtzanBing.setFont(new Font("Serif", Font.ITALIC | Font.BOLD, 20));
-	 * jbtzanBing.setBackground(Color.gray); }
-	 */
+
 	public void TextSet() {// 从服务器获取东西来填在客户端
 		try {
 			// 有错误
@@ -725,14 +551,28 @@ public class ClientSearch extends JFrame implements Constant {
 				countBaidu = fromServer1.readInt();
 				for (int i = 0; i < countBaidu; i++) {
 					resultBaidu[i] = fromServer1.readUTF();
+					jtaBaidu1.append("ok1");
+					jtaBaidu2.append("ok1");
+					jtaBaidu3.append("ok1");
+					jtaBaidu4.append("ok1");
 				}
 				countYoudao = fromServer1.readInt();
 				for (int i = 0; i < countYoudao; i++) {
 					resultYoudao[i] = fromServer1.readUTF();
+					jtaYoudao1.append("ok2");
+					jtaYoudao2.append("ok2");
+					jtaYoudao3.append("ok2");
+					jtaYoudao4.append("ok2");
+					
 				}
 				countBing = fromServer1.readInt();
 				for (int i = 0; i < countBing; i++) {
 					resultBing[i] = fromServer1.readUTF();
+					jtaBing1.append("ok1");
+					jtaBing2.append("ok1");
+					jtaBing3.append("ok1");
+					jtaBing4.append("ok1");
+					
 				}
 				System.out.print("baidu:  " + countBaidu + "    ");
 				System.out.println(wordZan.getBaidu());
@@ -743,21 +583,7 @@ public class ClientSearch extends JFrame implements Constant {
 			} else {// 点赞，只是更新了点赞次数，所以只更新布局
 				;
 			}
-			// jtaBaidu1.setText((String)(fromServer.readObject())+wordZan.getBaidu());
-			// jtaYoudao1.setText((String)(fromServer.readObject())+wordZan.getYoudao());
-			// jtaBing1.setText((String)(fromServer.readObject())+wordZan.getBing());
-			// jtaBaidu2.setText((String)(fromServer.readObject())+wordZan.getBaidu());
-			// jtaYoudao2.setText((String)(fromServer.readObject())+wordZan.getYoudao());
-			// jtaBing2.setText((String)(fromServer.readObject())+wordZan.getBing());
-			// jtaBaidu3.setText((String)(fromServer.readObject())+wordZan.getBaidu());
-			// jtaYoudao3.setText((String)(fromServer.readObject())+wordZan.getYoudao());
-			// jtaBing3.setText((String)(fromServer.readObject())+wordZan.getBing());
-			// jtaBaidu3.setText((String)(fromServer.readObject())+wordZan.getBaidu());
-			// jtaYoudao3.setText((String)(fromServer.readObject())+wordZan.getYoudao());
-			// jtaBing3.setText((String)(fromServer.readObject())+wordZan.getBing());
-			// jtaBaidu4.setText((String)(fromServer.readObject())+wordZan.getBaidu());
-			// jtaYoudao4.setText((String)(fromServer.readObject())+wordZan.getYoudao());
-			// jtaBing4.setText((String)(fromServer.readObject())+wordZan.getBing());
+			
 		} catch (ClassNotFoundException e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -835,7 +661,7 @@ public class ClientSearch extends JFrame implements Constant {
 	}
 
 	public void jbtSearchSet() {// search按钮的设置，调用searchword方法
-		jbtSearch.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		//jbtSearch.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		jbtSearch.setToolTipText("click to search");
 		jbtSearch.addActionListener(new ActionListener() {
 
@@ -885,10 +711,9 @@ public class ClientSearch extends JFrame implements Constant {
 		jlblbaiduset();
 		jtabaiduset();
 		jbtSearchSet();
-		// jbtzanset();
-		// jlblzanset();
 		jtfWordSet();
 		jbtSearchSet();
+		jbxbaiduset();
 		JScrollPane jsBaidu1 = new JScrollPane(jtaBaidu1);
 		JScrollPane jsBaidu2 = new JScrollPane(jtaBaidu2);
 		JScrollPane jsBaidu3 = new JScrollPane(jtaBaidu3);
@@ -902,11 +727,13 @@ public class ClientSearch extends JFrame implements Constant {
 		JScrollPane jsBing3 = new JScrollPane(jtaBing3);
 		JScrollPane jsBing4 = new JScrollPane(jtaBing4);
 		JScrollPane jsuser = new JScrollPane(jluser);
-		JScrollPane jsword = new JScrollPane(jlword);// 做滚动条处理
+		JScrollPane jsword = new JScrollPane(jlword);
+		 jsword.setPreferredSize(new java.awt.Dimension(100, 100));
+		 jsuser.setPreferredSize(new java.awt.Dimension(100, 100));// 做滚动条处理
 
 		JPanel p1 = new JPanel();
-		p1.setLayout(new BorderLayout(10, 0));
-		// p1.add(jlblInput, BorderLayout.WEST);
+		p1.setLayout(new BorderLayout());
+		 p1.add(jlblInput, BorderLayout.WEST);
 		p1.add(jtfWord, BorderLayout.CENTER);
 		p1.add(jbtSearch, BorderLayout.EAST);
 		JPanel p2 = new JPanel();// 输入行模块 p1
@@ -1008,65 +835,34 @@ public class ClientSearch extends JFrame implements Constant {
 
 		((CardLayout) pcard.getLayout()).show(pcard, "seventh");
 
-		jchkBaidu.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if (jchkBaidu.isSelected())
-					flag1 = 1;
-				else
-					flag1 = 0;
-				whichshow();
-				// System.out.println(flag1+" "+flag2+flag3);
-
-			}
-		});
-		jchkYoudao.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if (jchkYoudao.isSelected())
-					flag2 = 1;
-				else
-					flag2 = 0;
-				whichshow();
-
-			}
-		});
-		jchkBing.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if (jchkBing.isSelected())
-					flag3 = 1;
-				else
-					flag3 = 0;
-				whichshow();
-
-			}
-		});
+		
 
 		JPanel pleft = new JPanel();
-		pleft.setLayout(new GridLayout(2, 1, 10, 0));
+		pleft.setLayout(new GridLayout(2, 1, 10, 20));
 		pleft.add(jsuser);
 		pleft.add(jsword);// 右面用户状态栏
+		
+		//pleft.setBounds(580, 300, 40, 300);
 
 		JPanel plast = new JPanel();
 		plast.setLayout(new BorderLayout());
 		plast.add(p012, BorderLayout.NORTH);
 		plast.add(pcard, BorderLayout.CENTER);
+		
+		plast.setPreferredSize(new Dimension(600, 500));
+		//add(plast);
+		//add(pleft,BorderLayout.EAST);
 		setLayout(new FlowLayout());
 		add(plast);
-		add(pleft);
+		//add(pleft,BorderLayout.EAST);
+
+		//pleft.setBounds(580, 300, 40, 300);
 		// add(pzan,BorderLayout.SOUTH);
 
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Dictionary");
-		setSize(647, 405);
+		setSize(1000, 600);
 		setVisible(true);
 	}
 }

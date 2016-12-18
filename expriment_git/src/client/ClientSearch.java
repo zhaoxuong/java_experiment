@@ -787,6 +787,7 @@ public class ClientSearch extends JFrame implements Constant {
 			// 这是从服务器获取的解释，放到文本域中，并且更新布局，即点赞多的放前面，
 			//点赞次数已经存在WordZan中
 			//有没有点赞也已经放在WordZan中
+			jlblbaiduset2(wordZan);
 			
 			if (wordZan.getType()) {
 				flag=1;
@@ -900,7 +901,6 @@ public class ClientSearch extends JFrame implements Constant {
 				System.out.println("====="+wordZan.GetZanbaidu()+"======");
 				System.out.println("====="+wordZan.GetZanyoudao()+"======");
 				System.out.println("====="+wordZan.GetZanbing()+"======");
-				jlblbaiduset2(wordZan);
 				TextSet();
 				
 		} catch (IOException e) {

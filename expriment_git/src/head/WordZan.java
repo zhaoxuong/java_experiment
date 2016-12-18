@@ -107,7 +107,7 @@ public class WordZan implements Serializable{//某个单词的赞数目
 		// TODO Auto-generated method stub
 		baidu--;
 	}
-	public int max(){
+	public int getbest(){
 		int max = (baidu > youdao) ? baidu : youdao;
 		max = (max > bing) ? max : bing;
 		if(max==baidu) return 1;

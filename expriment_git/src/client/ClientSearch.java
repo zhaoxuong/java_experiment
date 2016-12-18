@@ -26,6 +26,11 @@ public class ClientSearch extends JFrame implements Constant {
 	private JLabel jlblInput = new JLabel();// input
 	private JTextField jtfWord = new JTextField();// input 输入框
 	private JButton jbtSearch = new JButton("Search");// search 按钮
+	private JButton add=new JButton();
+	private JButton del=new JButton();
+	private JButton  ref1=new JButton();
+	private JButton  ref2=new JButton();
+	
 	//private JButton jbtfresh = new JButton("fresh");
 			
 	private JCheckBox jchkBaidu = new JCheckBox("金山");
@@ -209,9 +214,58 @@ public class ClientSearch extends JFrame implements Constant {
 		jbtSearch.setFont(new Font("TimesRoman", Font.BOLD, 10));
 		jbtSearch.setPreferredSize(new Dimension(80, 10));
 		
+		
+		add.setIcon(new ImageIcon("add.png"));
+		del.setIcon(new ImageIcon("delete.png"));
+		add.setPreferredSize(new Dimension(50, 20));
+		del.setPreferredSize(new Dimension(80, 30));
+		ref1.setIcon(new ImageIcon("刷新.png"));
+		ref2.setIcon(new ImageIcon("刷新.png"));
+		ref1.setPreferredSize(new Dimension(50, 20));
+		ref2.setPreferredSize(new Dimension(80, 30));
+		
 		// jbtSearch.setBackground(Color.GRAY);
 	}
-
+	public void jbtuserset(){//发送单词卡的监听事件
+		ref2.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				getFriend();			
+			}
+			
+		});
+		add.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				sendWordCard(wordZan.GetAccount(), wordZan.getWord(), wordZan.getbest(), ADD);
+				
+			}
+		});
+		del.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				sendWordCard(wordZan.GetAccount(), wordZan.getWord(), wordZan.getbest(), DELETE);
+				
+			}
+		
+		});
+		ref1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				//System.out.println(wordZan);
+				sendWordCard(wordZan.GetAccount(), wordZan.getWord(), wordZan.getbest(), UPDATE);
+				
+			}
+		});
+		
+		
+		
+	}
 	public void jlblbaiduset() {// 百度等标签的设置	
 		
 		jlause=new JLabel(icon8);
@@ -907,7 +961,7 @@ public class ClientSearch extends JFrame implements Constant {
 			System.err.println(e);
 		}
 	}
-
+	
 	public void changeZan() {
 		wordZan.setType(false);
 		wordZan.SetAccount(ta);
@@ -951,9 +1005,16 @@ public class ClientSearch extends JFrame implements Constant {
 				fromServer = new ObjectInputStream(socketWords.getInputStream());
 				fromServer1 = new DataInputStream(socketWords.getInputStream());
 				int numOfWordCard = fromServer1.readInt();
+				System.out.println("n="+" "+numOfWordCard);
+				WordCard []send=new WordCard[numOfWordCard];
+				String []words=new String[numOfWordCard];
 				for (int i = 0; i < numOfWordCard; i++) {// 读单词卡
-					fromServer.readObject();
+					send[i]=(WordCard)fromServer.readObject();
+					
+					words[i]=send[i].getWord();
+					System.out.println(words[i]);
 				}
+				jlword.setListData(words);
 			}
 		} catch (ClassNotFoundException e) {
 			// TODO: handle exception
@@ -1012,6 +1073,7 @@ public class ClientSearch extends JFrame implements Constant {
 		jbxbaiduset();
 		jlistset();	
 		getFriend();
+		jbtuserset();
 		JScrollPane jsBaidu1 = new JScrollPane(jtaBaidu1);
 		JScrollPane jsBaidu2 = new JScrollPane(jtaBaidu2);
 		JScrollPane jsBaidu3 = new JScrollPane(jtaBaidu3);
@@ -1026,8 +1088,8 @@ public class ClientSearch extends JFrame implements Constant {
 		JScrollPane jsBing4 = new JScrollPane(jtaBing4);
 		JScrollPane jsuser = new JScrollPane(jluser);
 		JScrollPane jsword = new JScrollPane(jlword);
-		 jsword.setPreferredSize(new java.awt.Dimension(100, 200));
-		 jsuser.setPreferredSize(new java.awt.Dimension(100, 200));// 做滚动条处理
+		 jsword.setPreferredSize(new java.awt.Dimension(100, 180));
+		 jsuser.setPreferredSize(new java.awt.Dimension(80, 150));// 做滚动条处理
 
 		JPanel p1 = new JPanel();
 		p1.setLayout(new BorderLayout());
@@ -1202,7 +1264,6 @@ public class ClientSearch extends JFrame implements Constant {
 		p345.add(p555);
 		*/
 		
-	
 		
 		
 		
@@ -1227,7 +1288,31 @@ public class ClientSearch extends JFrame implements Constant {
 		pleft.add(jsword);// 右面用户状态栏*/
 		
 		//pleft.setBounds(580, 300, 40, 300);
-
+		JPanel adddel=new JPanel();
+		adddel.setLayout(new GridLayout(1,2));
+		adddel.add(ref1);
+		adddel.add(del);
+		
+		
+		JPanel usradd=new JPanel();
+		usradd.setLayout(new GridLayout(1,2));
+		usradd.add(ref2);
+		usradd.add(add);
+		
+		JPanel  pwords=new JPanel();
+		pwords.setLayout(new BorderLayout());
+		pwords.add(jlword, BorderLayout.NORTH);
+		pwords.add(adddel,BorderLayout.CENTER);
+		
+		JPanel pusrs=new JPanel();
+		pusrs.setLayout(new BorderLayout());
+		pusrs.add(jluser, BorderLayout.NORTH);
+		pusrs.add(usradd,BorderLayout.CENTER);
+		
+		
+		
+		
+		
 		JPanel plast = new JPanel();
 		plast.setLayout(new BorderLayout());
 		plast.add(p012, BorderLayout.NORTH);
@@ -1240,12 +1325,12 @@ public class ClientSearch extends JFrame implements Constant {
 		//add(pleft,BorderLayout.EAST);
 		pcard1.setLayout(new CardLayout());
 		pcard1.add(jlause, "first");
-		pcard1.add(jluser, "second");
+		pcard1.add(pusrs, "second");
 		((CardLayout) pcard1.getLayout()).show(pcard1, "first");
 		
 		pcard2.setLayout(new CardLayout());
 		pcard2.add(jlaword, "first");
-		pcard2.add(jlword, "second");
+		pcard2.add(pwords, "second");
 		((CardLayout) pcard2.getLayout()).show(pcard2, "first");
 		
 		
@@ -1274,7 +1359,7 @@ public class ClientSearch extends JFrame implements Constant {
 		//jFrame.setLocationRelativeTo(CENTER);
 		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jFrame.setTitle("Dictionary");
-		jFrame.setSize(860, 600);
+		jFrame.setSize(1000, 600);
 		jFrame.setVisible(true);
 		jFrame.setLocation(200, 150);
 	}

@@ -126,23 +126,23 @@ public class ClientSearch extends JFrame implements Constant {
 		
 
 	}
-	public void jlblbaiduset2(){
-		if(!wordZan.GetZanbaidu())
+	public void jlblbaiduset2(WordZan wordZan1){
+		if(!wordZan1.GetZanbaidu())
 			jlblBaidu1.setIcon(icon1);
 	else
 			jlblBaidu1.setIcon(icon4);
 
-	if(!wordZan.GetZanyoudao())
+	if(!wordZan1.GetZanyoudao())
 		jlblYoudao1.setIcon(icon2);
 	else
 		jlblYoudao1.setIcon(icon5);
 
-	if(!wordZan.GetZanbing())
+	if(!wordZan1.GetZanbing())
 		jlblBing1.setIcon(icon3);
 	else
 		jlblBing1.setIcon(icon6);
 
-	if(!wordZan.GetZanbaidu())
+	if(!wordZan1.GetZanbaidu())
 		jlblBaidu2.setIcon(icon1);
 	else
 		jlblBaidu2.setIcon(icon4);
@@ -150,28 +150,28 @@ public class ClientSearch extends JFrame implements Constant {
 
 
 
-	if(!wordZan.GetZanyoudao())
+	if(!wordZan1.GetZanyoudao())
 		jlblYoudao2.setIcon(icon2);
 	else
 		jlblYoudao2.setIcon(icon5);
 
 
-	if(!wordZan.GetZanbing())
+	if(!wordZan1.GetZanbing())
 		jlblBing2.setIcon(icon3);
 	else
 		jlblBing2.setIcon(icon6);
 
-	 if(!wordZan.GetZanbaidu())
+	 if(!wordZan1.GetZanbaidu())
 		jlblBaidu3.setIcon(icon1);
 	else
 		jlblBaidu3.setIcon(icon4);
 
-	if(!wordZan.GetZanyoudao())
+	if(!wordZan1.GetZanyoudao())
 		jlblYoudao3.setIcon(icon2);
 	else
 		jlblYoudao3.setIcon(icon5);
 		
-	if(!wordZan.GetZanbing())
+	if(!wordZan1.GetZanbing())
 		jlblBing3.setIcon(icon3);
 	else
 		jlblBing3.setIcon(icon6);
@@ -179,20 +179,20 @@ public class ClientSearch extends JFrame implements Constant {
 		
 
 
-	if(!wordZan.GetZanbaidu())
+	if(!wordZan1.GetZanbaidu())
 		jlblBaidu4.setIcon(icon1);
 	else
 		jlblBaidu4.setIcon(icon4);
 
 
 
-	if(!wordZan.GetZanyoudao())
+	if(!wordZan1.GetZanyoudao())
 		jlblYoudao4.setIcon(icon2);
 	else
 		jlblYoudao4.setIcon(icon5);
 				
 
-	if(!wordZan.GetZanbing())
+	if(!wordZan1.GetZanbing())
 		jlblBing4.setIcon(icon3);
 	else
 		jlblBing4.setIcon(icon6);
@@ -787,9 +787,7 @@ public class ClientSearch extends JFrame implements Constant {
 			// 这是从服务器获取的解释，放到文本域中，并且更新布局，即点赞多的放前面，
 			//点赞次数已经存在WordZan中
 			//有没有点赞也已经放在WordZan中
-			System.out.println("====="+wordZan.GetZanbaidu()+"======");
-			System.out.println("====="+wordZan.GetZanyoudao()+"======");
-			System.out.println("====="+wordZan.GetZanbing()+"======");
+			
 			if (wordZan.getType()) {
 				flag=1;
 				fromServer1 = new DataInputStream(socketSearch.getInputStream());
@@ -881,18 +879,30 @@ public class ClientSearch extends JFrame implements Constant {
 		wordZan.setType(true);
 
 		try {
-				if (word.equals(wordZan.getWord())) {
+				/*if (word.equals(wordZan.getWord())) {
+					TextSet();
 					
-					return;
 				} else {
 					wordZan.setWord(word);
 					//我觉得应该是set
-				}
+				}*/
+				wordZan.setWord(word); 
 				toServer = new ObjectOutputStream(socketSearch.getOutputStream());
 				toServer.writeObject(wordZan);
 				fromServer = new ObjectInputStream(socketSearch.getInputStream());
+				System.out.println(wordZan.getWord());
+				System.out.print("baidu:  " + countBaidu + "    ");
+				System.out.println(wordZan.getBaidu());
+				System.out.print("youdao:  " + countYoudao + "    ");
+				System.out.println(wordZan.getYoudao());
+				System.out.print("bing:  " + countBing + "    ");
+				System.out.println(wordZan.getBing());
+				System.out.println("====="+wordZan.GetZanbaidu()+"======");
+				System.out.println("====="+wordZan.GetZanyoudao()+"======");
+				System.out.println("====="+wordZan.GetZanbing()+"======");
+				jlblbaiduset2(wordZan);
 				TextSet();
-				jlblbaiduset2();
+				
 		} catch (IOException e) {
 			System.err.println(e);
 		}
@@ -963,6 +973,7 @@ public class ClientSearch extends JFrame implements Constant {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				searchWord(jtfWord.getText());
+				System.out.println("dangqian"+jtfWord.getText());
 			
 			}
 		});
@@ -1289,13 +1300,13 @@ public class ClientSearch extends JFrame implements Constant {
 		System.out.println(wordZan.getBing());*/
 		wordZan.update(in);
 		setjpanel();
-		System.out.println(wordZan.getWord());
+		/*System.out.println(wordZan.getWord());
 		System.out.print("baidu:  " + countBaidu + "    ");
 		System.out.println(wordZan.getBaidu());
 		System.out.print("youdao:  " + countYoudao + "    ");
 		System.out.println(wordZan.getYoudao());
 		System.out.print("bing:  " + countBing + "    ");
-		System.out.println(wordZan.getBing());
+		System.out.println(wordZan.getBing());*/
 		jtfWord.setText(wordZan.getWord());
 		if(issearch==1)
 		    searchWord(wordZan.getWord());

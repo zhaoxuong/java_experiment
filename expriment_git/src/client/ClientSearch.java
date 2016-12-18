@@ -255,9 +255,9 @@ public class ClientSearch extends JFrame implements Constant {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				int Num=1;
-				if(str[1].equals("1"))  Num=1;
-				if(str[1].equals("2"))  Num=2;
-				if(str[1].equals("3"))  Num=3;
+				if(str[1].equals("Baidu"))  Num=1;
+				if(str[1].equals("Youdao"))  Num=2;
+				if(str[1].equals("Bing"))  Num=3;
 				//System.out.println("two="+" "+[0]+"qq"+Two[1]+"qq"+Two[2]);
 				System.out.println("Sendword="+Sendword);
 				System.out.println(Num);
@@ -770,12 +770,13 @@ public class ClientSearch extends JFrame implements Constant {
 		jlword.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
                String temp=jlword.getSelectedValue();
+               System.out.println("temp="+temp);
                str=temp.split("-");
                int len;
                len=str.length;
-               System.out.println("len="+len);
-               for(int i=0;i<len;i++)
-            	   	System.out.println(str[i]);
+              // System.out.println("len="+len);
+               //for(int i=0;i<len;i++)
+            	 //  	System.out.println(str[i]);
                
                
                Sendword=str[0];
@@ -1045,8 +1046,13 @@ public class ClientSearch extends JFrame implements Constant {
 				String []words=new String[numOfWordCard];
 				for (int i = 0; i < numOfWordCard; i++) {// ¶Áµ¥´Ê¿¨
 					send[i]=(WordCard)fromServer.readObject();
+					String temp="Jinshan";
+					if(send[i].getBest()==1) temp="Jinshan";
+					if(send[i].getBest()==2) temp="Youdao";
+					if(send[i].getBest()==3) temp="Bing";
 					
-					words[i]=send[i].getWord()+"-"+send[i].getBest();
+					
+					words[i]=send[i].getWord()+"-"+temp;
 					System.out.println(words[i]);
 				}
 				jlword.setListData(words);

@@ -3,10 +3,12 @@ package client;
 
 //test
 import java.awt.*;
+import java.awt.List;
 import java.awt.event.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.*;
+
 
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
@@ -64,6 +66,10 @@ public class ClientSearch extends JFrame implements Constant {
 	private int flag2;
 	private int flag3;
 	private int flag=0;
+	
+	private String Sendword;
+	private String Sender;
+	private String  []str;
 	private ObjectInputStream fromServer;
 	private ObjectOutputStream toServer;
 	private DataInputStream fromServer1;
@@ -234,11 +240,12 @@ public class ClientSearch extends JFrame implements Constant {
 			
 		});
 		add.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				sendWordCard(wordZan.GetAccount(), wordZan.getWord(), wordZan.getbest(), ADD);
+				System.out.println("ok1");
+				System.out.println("Sender="+Sender);
+				sendWordCard(Sender, wordZan.getWord(), wordZan.getbest(), ADD);
 				
 			}
 		});
@@ -247,7 +254,14 @@ public class ClientSearch extends JFrame implements Constant {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				sendWordCard(wordZan.GetAccount(), wordZan.getWord(), wordZan.getbest(), DELETE);
+				int Num=1;
+				if(str[1].equals("1"))  Num=1;
+				if(str[1].equals("2"))  Num=2;
+				if(str[1].equals("3"))  Num=3;
+				//System.out.println("two="+" "+[0]+"qq"+Two[1]+"qq"+Two[2]);
+				System.out.println("Sendword="+Sendword);
+				System.out.println(Num);
+				sendWordCard(wordZan.GetAccount(), Sendword,Num, DELETE);
 				
 			}
 		
@@ -734,6 +748,12 @@ public class ClientSearch extends JFrame implements Constant {
 	public void jlistset(){//Jlistµƒ…Ë÷√ 
 		jluser.setPreferredSize(new Dimension(100, 250));
 		jluser.setBorder(BorderFactory.createLineBorder(Color.red, 1));
+		jluser.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+               Sender=jluser.getSelectedValue();
+            }
+        });
+	
 		jluser.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
 				if(e.getClickCount()==2)
@@ -747,6 +767,21 @@ public class ClientSearch extends JFrame implements Constant {
 		});
 		jlword.setPreferredSize(new Dimension(100, 250));
 		jlword.setBorder(BorderFactory.createLineBorder(Color.red, 1));
+		jlword.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+               String temp=jlword.getSelectedValue();
+               str=temp.split("-");
+               int len;
+               len=str.length;
+               System.out.println("len="+len);
+               for(int i=0;i<len;i++)
+            	   	System.out.println(str[i]);
+               
+               
+               Sendword=str[0];
+               
+            }
+        });
 		jlword.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
 				if(e.getClickCount()==2)
@@ -945,7 +980,7 @@ public class ClientSearch extends JFrame implements Constant {
 				toServer = new ObjectOutputStream(socketSearch.getOutputStream());
 				toServer.writeObject(wordZan);
 				fromServer = new ObjectInputStream(socketSearch.getInputStream());
-				System.out.println(wordZan.getWord());
+				/*System.out.println(wordZan.getWord());
 				System.out.print("baidu:  " + countBaidu + "    ");
 				System.out.println(wordZan.getBaidu());
 				System.out.print("youdao:  " + countYoudao + "    ");
@@ -954,7 +989,7 @@ public class ClientSearch extends JFrame implements Constant {
 				System.out.println(wordZan.getBing());
 				System.out.println("====="+wordZan.GetZanbaidu()+"======");
 				System.out.println("====="+wordZan.GetZanyoudao()+"======");
-				System.out.println("====="+wordZan.GetZanbing()+"======");
+				System.out.println("====="+wordZan.GetZanbing()+"======");*/
 				TextSet();
 				
 		} catch (IOException e) {
@@ -1011,7 +1046,7 @@ public class ClientSearch extends JFrame implements Constant {
 				for (int i = 0; i < numOfWordCard; i++) {// ∂¡µ•¥ ø®
 					send[i]=(WordCard)fromServer.readObject();
 					
-					words[i]=send[i].getWord();
+					words[i]=send[i].getWord()+"-"+send[i].getBest();
 					System.out.println(words[i]);
 				}
 				jlword.setListData(words);

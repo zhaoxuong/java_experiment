@@ -5,7 +5,7 @@ import java.io.*;
 
 public class WordZan implements Serializable{//某个单词的赞数目
 	private String account;
-	private String word=" ";
+	private String word="";
 	
 	private int baidu=0;
 	private int youdao=0;

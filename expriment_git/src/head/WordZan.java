@@ -55,6 +55,7 @@ public class WordZan implements Serializable{//某个单词的赞数目
 		zanbaidu=w.GetZanbaidu();
 		zanyoudao=w.GetZanyoudao();
 		zanbing=w.GetZanbing();
+		word=w.getWord();
 	}
 	public String getWord(){
 		return word;

@@ -5,6 +5,7 @@ import java.io.*;
 import java.net.Socket;
 import javax.swing.*;
 import head.Account;
+import head.WordZan;
 public class ClientSign extends JFrame{
 	private JLabel jlblAccount=new JLabel("’À∫≈");
 	private JTextField jtfAccount=new JTextField();
@@ -90,7 +91,7 @@ public class ClientSign extends JFrame{
 			fromServer=new DataInputStream(socket.getInputStream());
 			boolean b=fromServer.readBoolean();
 			if(b){
-				new ClientSearch(jtfAccount.getText()," ",0);
+				new ClientSearch(jtfAccount.getText(),new WordZan(),0);
 			}
 			else{
 				System.out.println("”√ªß√‹¬Î¥ÌŒÛ£°");

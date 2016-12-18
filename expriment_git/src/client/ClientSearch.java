@@ -116,8 +116,8 @@ public class ClientSearch extends JFrame implements Constant {
 				//jFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 				//System.out.println(in);
 				//System.out.println("string="+string);
-			
-				    new ClientSearch(ta,string,is);
+					WordZan temp=wordZan;
+				    new ClientSearch(ta,temp,1);
 				
 				
 			}
@@ -126,7 +126,80 @@ public class ClientSearch extends JFrame implements Constant {
 		
 
 	}
+	public void jlblbaiduset2(){
+		if(!wordZan.GetZanbaidu())
+			jlblBaidu1.setIcon(icon1);
+	else
+			jlblBaidu1.setIcon(icon4);
 
+	if(!wordZan.GetZanyoudao())
+		jlblYoudao1.setIcon(icon2);
+	else
+		jlblYoudao1.setIcon(icon5);
+
+	if(!wordZan.GetZanbing())
+		jlblBing1.setIcon(icon3);
+	else
+		jlblBing1.setIcon(icon6);
+
+	if(!wordZan.GetZanbaidu())
+		jlblBaidu2.setIcon(icon1);
+	else
+		jlblBaidu2.setIcon(icon4);
+
+
+
+
+	if(!wordZan.GetZanyoudao())
+		jlblYoudao2.setIcon(icon2);
+	else
+		jlblYoudao2.setIcon(icon5);
+
+
+	if(!wordZan.GetZanbing())
+		jlblBing2.setIcon(icon3);
+	else
+		jlblBing2.setIcon(icon6);
+
+	 if(!wordZan.GetZanbaidu())
+		jlblBaidu3.setIcon(icon1);
+	else
+		jlblBaidu3.setIcon(icon4);
+
+	if(!wordZan.GetZanyoudao())
+		jlblYoudao3.setIcon(icon2);
+	else
+		jlblYoudao3.setIcon(icon5);
+		
+	if(!wordZan.GetZanbing())
+		jlblBing3.setIcon(icon3);
+	else
+		jlblBing3.setIcon(icon6);
+		
+		
+
+
+	if(!wordZan.GetZanbaidu())
+		jlblBaidu4.setIcon(icon1);
+	else
+		jlblBaidu4.setIcon(icon4);
+
+
+
+	if(!wordZan.GetZanyoudao())
+		jlblYoudao4.setIcon(icon2);
+	else
+		jlblYoudao4.setIcon(icon5);
+				
+
+	if(!wordZan.GetZanbing())
+		jlblBing4.setIcon(icon3);
+	else
+		jlblBing4.setIcon(icon6);
+		
+		
+	}
+	
 	public void jlbinputset() {// 输入标签的设置
 		jlblInput.setFont(new Font("Serif", Font.BOLD, 10));
 		jlblInput.setBackground(Color.BLACK);
@@ -819,6 +892,7 @@ public class ClientSearch extends JFrame implements Constant {
 				toServer.writeObject(wordZan);
 				fromServer = new ObjectInputStream(socketSearch.getInputStream());
 				TextSet();
+				jlblbaiduset2();
 		} catch (IOException e) {
 			System.err.println(e);
 		}
@@ -1193,7 +1267,7 @@ public class ClientSearch extends JFrame implements Constant {
 		jFrame.setVisible(true);
 		jFrame.setLocation(200, 150);
 	}
-	public ClientSearch(String ta,String in,int issearch) {
+	public ClientSearch(String ta,WordZan in,int issearch) {
 		this.ta = ta;
 
 		try {
@@ -1206,18 +1280,15 @@ public class ClientSearch extends JFrame implements Constant {
 		}
 		flag1 = flag2 = flag3 = 0;
 		// flagBaidu=flagBing=flagYoudao=0;
-		System.out.println("string="+wordZan.getWord());
+		/*System.out.println("string="+wordZan.getWord());
 		System.out.print("baidu:  " + countBaidu + "    ");
 		System.out.println(wordZan.getBaidu());
 		System.out.print("youdao:  " + countYoudao + "    ");
 		System.out.println(wordZan.getYoudao());
 		System.out.print("bing:  " + countBing + "    ");
-		System.out.println(wordZan.getBing());
+		System.out.println(wordZan.getBing());*/
+		wordZan.update(in);
 		setjpanel();
-		
-		jtfWord.setText(in);
-		if(issearch==1)
-		    searchWord(in);
 		System.out.println(wordZan.getWord());
 		System.out.print("baidu:  " + countBaidu + "    ");
 		System.out.println(wordZan.getBaidu());
@@ -1225,6 +1296,10 @@ public class ClientSearch extends JFrame implements Constant {
 		System.out.println(wordZan.getYoudao());
 		System.out.print("bing:  " + countBing + "    ");
 		System.out.println(wordZan.getBing());
+		jtfWord.setText(wordZan.getWord());
+		if(issearch==1)
+		    searchWord(wordZan.getWord());
+		
 	
 		
 	}

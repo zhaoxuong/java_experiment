@@ -17,9 +17,9 @@ public class ActiveAccount {
 		vActiveAccount.remove(a);
 	}
 	public static Vector<String> GetActiveAccount(){
-		for(int i=0;i<vActiveAccount.size();i++){
-			System.out.println(vActiveAccount.get(i));
-		}
+		//for(int i=0;i<vActiveAccount.size();i++){
+			//System.out.println(vActiveAccount.get(i));
+		//}
 		return vActiveAccount;
 	}
 }

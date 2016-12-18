@@ -15,20 +15,18 @@ import java.awt.*;
 import head.*;
 import def.*;
 
-
 public class ServerSearch extends JFrame {
 
-	
 	Connection connection = null;
 	Statement statement = null;
 	ResultSet resultSet = null;
-	
+
 	YouDaodef resultYouDao = new YouDaodef();
 	JinShan_def resultJinShan = new JinShan_def();
 	Bing_def resultBing = new Bing_def();
-	
+
 	public ServerSearch(Connection c) {
-		connection=c;
+		connection = c;
 		JTextArea jtaLog = new JTextArea();
 		JScrollPane scrollPane = new JScrollPane(jtaLog);
 		add(scrollPane, BorderLayout.CENTER);
@@ -59,7 +57,7 @@ public class ServerSearch extends JFrame {
 			}
 		} catch (IOException e) {
 			// TODO: handle exception
-			System.err.println("70: "+e);
+			System.err.println("70: " + e);
 		}
 	}
 
@@ -82,32 +80,31 @@ public class ServerSearch extends JFrame {
 					ActiveAccount.GetActiveAccount();
 					fromClient = new ObjectInputStream(client.getInputStream());
 					Object object = fromClient.readObject();
-					object=updateWordZanFromDatabase(object);
+					object = updateWordZanFromDatabase(object);
 					toClient = new ObjectOutputStream(client.getOutputStream());
-					toClient1=new DataOutputStream(client.getOutputStream());
+					toClient1 = new DataOutputStream(client.getOutputStream());
 					toClient.writeObject(object);
-					//object还是不能写基本数据类型
-					if(((WordZan)object).getType()){
-						
-						resultJinShan.getJinShanValue(((WordZan)object).getWord());
+					// object还是不能写基本数据类型
+					if (((WordZan) object).getType()) {
+
+						resultJinShan.getJinShanValue(((WordZan) object).getWord());
 						toClient1.writeInt(resultJinShan.getCount());
-						for(int i=0;i<resultJinShan.getCount();i++){
+						for (int i = 0; i < resultJinShan.getCount(); i++) {
 							toClient1.writeUTF((resultJinShan.getGetresult())[i]);
 						}
 
-						resultYouDao.getYouDaoValue(((WordZan)object).getWord());
+						resultYouDao.getYouDaoValue(((WordZan) object).getWord());
 						toClient1.writeInt(resultYouDao.getCount());
-						for(int i=0;i<resultYouDao.getCount();i++){
+						for (int i = 0; i < resultYouDao.getCount(); i++) {
 							toClient1.writeUTF((resultYouDao.getGetresult())[i]);
 						}
-						
-						resultBing.getBingValue(((WordZan)object).getWord());
+
+						resultBing.getBingValue(((WordZan) object).getWord());
 						toClient1.writeInt(resultBing.getCount());
-						for(int i=0;i<resultBing.getCount();i++){
+						for (int i = 0; i < resultBing.getCount(); i++) {
 							toClient1.writeUTF((resultBing.getGetresult())[i]);
 						}
-					}
-					else{//只传回WordZan就行了，不用传解释
+					} else {// 只传回WordZan就行了，不用传解释
 						;
 					}
 				}
@@ -116,54 +113,102 @@ public class ServerSearch extends JFrame {
 				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO: handle exception
-				System.err.println("ServerSearch.105: "+e);
+				System.err.println("ServerSearch.105: " + e);
 			}
 		}
-		public Object updateWordZanFromDatabase(Object o){
-			String a = ((WordZan) o).getWord();
-			int tbaidu=0;
-			int tyoudao=0;
-			int tbing=0;
 
-			//数据库主键问题，或者直接在这里控制
+		public Object updateWordZanFromDatabase(Object o) {
+			String account = ((WordZan) o).GetAccount();
+			String a = ((WordZan) o).getWord();
+
 			try {
 				statement = connection.createStatement();
-				resultSet = statement.executeQuery("SELECT word, baidu, youdao, bing FROM [dbo].[WordZan] WHERE word='" + a + "'");
+				if (((WordZan) o).getType()) {// 为了得到总的赞数
+					resultSet = statement.executeQuery(
+							"SELECT word, baidu, youdao, bing FROM [dbo].[WordZan] WHERE word='" + a + "'");
+					if (resultSet.next()) {
+						((WordZan) o).setBaidu(resultSet.getInt(2));
+						((WordZan) o).setYoudao(resultSet.getInt(3));
+						((WordZan) o).setBing(resultSet.getInt(4));
+					} else {
+						statement
+								.executeUpdate("INSERT  [dbo].[WordZan] ( [word], [baidu],[youdao],[bing] ) VALUES  ( '"
+										+ a + "', 0,0,0);");
+						((WordZan) o).setBaidu(0);
+						((WordZan) o).setYoudao(0);
+						((WordZan) o).setBing(0);
+					}
+				}
+				// 得到是否点赞了
+				resultSet = statement.executeQuery("SELECT baidu, youdao, bing FROM [dbo].[zan] WHERE account='"
+						+ account + "' AND word='" + a + "'");
 				if (resultSet.next()) {
-					tbaidu=resultSet.getInt(2);
-					tyoudao=resultSet.getInt(3);
-					tbing=resultSet.getInt(4);
-				} 
-				else {
+					if (resultSet.getInt(1) == 1) {
+						if (((WordZan) o).GetZanbaidu() == false) {
+							statement.executeUpdate(
+									"UPDATE zan SET baidu=0 WHERE account='" + account + "' AND word='" + a + "'");
+							statement.executeUpdate("UPDATE WordZan SET baidu=baidu-1 WHERE word='" + a + "'");
+							((WordZan) o).deBaidu();
+						}
+					} else {
+						if (((WordZan) o).GetZanbaidu() == true) {
+							statement.executeUpdate(
+									"UPDATE zan SET baidu=1 WHERE account='" + account + "' AND word='" + a + "'");
+							statement.executeUpdate("UPDATE WordZan SET baidu=baidu+1 WHERE word='" + a + "'");
+							((WordZan) o).addBaidu();
+						}
+					}
+					if (resultSet.getInt(2) == 1) {
+						if (((WordZan) o).GetZanyoudao() == false) {
+							statement.executeUpdate(
+									"UPDATE zan SET youdao=0 WHERE account='" + account + "' AND word='" + a + "'");
+							statement.executeUpdate("UPDATE WordZan SET youdao=youdao-1 WHERE word='" + a + "'");
+							((WordZan) o).deYoudao();
+						}
+					} else {
+						if (((WordZan) o).GetZanyoudao() == true) {
+							statement.executeUpdate(
+									"UPDATE zan SET youdao=1 WHERE account='" + account + "' AND word='" + a + "'");
+							statement.executeUpdate("UPDATE WordZan SET youdao=youdao+1 WHERE word='" + a + "'");
+							((WordZan) o).addYoudao();
+						}
+					}
+					if (resultSet.getInt(3) == 1) {
+						if (((WordZan) o).GetZanbing() == false) {
+							statement.executeUpdate(
+									"UPDATE zan SET bing=0 WHERE account='" + account + "' AND word='" + a + "'");
+							statement.executeUpdate("UPDATE WordZan SET bing=bing-1 WHERE word='" + a + "'");
+							((WordZan) o).deBing();
+						}
+					} else {
+						if (((WordZan) o).GetZanbing() == true) {
+							statement.executeUpdate(
+									"UPDATE zan SET bing=1 WHERE account='" + account + "' AND word='" + a + "'");
+							statement.executeUpdate("UPDATE WordZan SET bing=bing+1 WHERE word='" + a + "'");
+							((WordZan) o).addBing();
+						}
+					}
+				} else {
+					int t1 = 0;
+					int t2 = 0;
+					int t3 = 0;
+					if (((WordZan) o).GetZanbaidu() == true) {
+						t1 = 1;
+						statement.executeUpdate("UPDATE WordZan SET baidu=baidu+1 WHERE word='" + a + "'");
+					}
+					if (((WordZan) o).GetZanyoudao() == true) {
+						t2 = 1;
+						statement.executeUpdate("UPDATE WordZan SET youdao=youdao+1 WHERE word='" + a + "'");
+					}
+					if (((WordZan) o).GetZanbing() == true) {
+						t3 = 1;
+						statement.executeUpdate("UPDATE WordZan SET bing=bing+1 WHERE word='" + a + "'");
+					}
 					statement.executeUpdate(
-							"INSERT  [dbo].[WordZan] ( [word], [baidu],[youdao],[bing] ) VALUES  ( '" + a + "', 0,0,0);");
+							"INSERT  [dbo].[zan] ([account], [word], [baidu],[youdao],[bing] ) VALUES  ( '" + account
+									+ "','" + a + "', " + t1 + "," + t2 + "," + t3 + ");");
 				}
-				if(((WordZan)o).getType()){
-					//从客户端发来的都是0不用比较大小
-					((WordZan)o).setBaidu(tbaidu);
-					((WordZan)o).setYoudao(tyoudao);
-					((WordZan)o).setBing(tbing);
-				}
-				else{
-					if(((WordZan)o).getBaidu()>tbaidu){
-						tbaidu=((WordZan)o).getBaidu();
-						statement.executeUpdate("UPDATE WordZan SET baidu="+tbaidu+" WHERE word='" + a + "'");
-					}else{
-						((WordZan)o).setBaidu(tbaidu);
-					}
-					if(((WordZan)o).getYoudao()>tyoudao){
-						tbaidu=((WordZan)o).getYoudao();
-						statement.executeUpdate("UPDATE WordZan SET youdao="+tyoudao+" WHERE word='" + a + "'");
-					}else{
-						((WordZan)o).setYoudao(tyoudao);;
-					}
-					if(((WordZan)o).getBing()>tbing){
-						tbaidu=((WordZan)o).getBing();
-						statement.executeUpdate("UPDATE WordZan SET bing="+tbing+" WHERE word='" + a + "'");
-					}else{
-						((WordZan)o).setBing(tbing);
-					}
-				}
+
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -172,6 +217,7 @@ public class ServerSearch extends JFrame {
 		}
 
 	}
+
 	class TaskFriend implements Runnable, Constant {
 		private Socket client;
 		DataInputStream fromClient;
@@ -190,18 +236,19 @@ public class ServerSearch extends JFrame {
 					fromClient = new DataInputStream(client.getInputStream());
 					fromClient.readInt();
 					toClient = new DataOutputStream(client.getOutputStream());
-					Vector<String> v=ActiveAccount.GetActiveAccount();
+					Vector<String> v = ActiveAccount.GetActiveAccount();
 					toClient.writeInt(v.size());
-					for(int i=0;i<v.size();i++){
+					for (int i = 0; i < v.size(); i++) {
 						toClient.writeUTF(v.get(i));
 					}
 				}
 			} catch (IOException e) {
 				// TODO: handle exception
-				System.err.println("ServerSearch.208: "+e);
+				System.err.println("ServerSearch.208: " + e);
 			}
 		}
 	}
+
 	class TaskWords implements Runnable, Constant {
 		private Socket client;
 		ObjectInputStream fromClient;
@@ -220,18 +267,16 @@ public class ServerSearch extends JFrame {
 				while (true) {
 					fromClient = new ObjectInputStream(client.getInputStream());
 					Object object = fromClient.readObject();
-					if(((WordCard)object).getType()==ADD){
-						AllWordCard.Add(((WordCard)object));
-					}
-					else if(((WordCard)object).getType()==DELETE){
-						AllWordCard.Delete(((WordCard)object));
-					}
-					else{//更新，把自己的用户名发过来
+					if (((WordCard) object).getType() == ADD) {
+						AllWordCard.Add(((WordCard) object));
+					} else if (((WordCard) object).getType() == DELETE) {
+						AllWordCard.Delete(((WordCard) object));
+					} else {// 更新，把自己的用户名发过来
 						toClient = new ObjectOutputStream(client.getOutputStream());
-						toClient1=new DataOutputStream(client.getOutputStream());
-						Vector<WordCard> tVector=AllWordCard.GetAccountCard(((WordCard)object).getAccount());
+						toClient1 = new DataOutputStream(client.getOutputStream());
+						Vector<WordCard> tVector = AllWordCard.GetAccountCard(((WordCard) object).getAccount());
 						toClient1.writeInt(tVector.size());
-						for(int i=0;i<tVector.size();i++){
+						for (int i = 0; i < tVector.size(); i++) {
 							toClient.writeObject(tVector.get(i));
 						}
 					}
@@ -241,9 +286,8 @@ public class ServerSearch extends JFrame {
 				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO: handle exception
-				System.err.println("ServerSearch.105: "+e);
+				System.err.println("ServerSearch.105: " + e);
 			}
 		}
 	}
 }
-

@@ -4,15 +4,43 @@ import java.awt.SecondaryLoop;
 import java.io.*;
 
 public class WordZan implements Serializable{//某个单词的赞数目
+	private String account;
 	private String word="";
+	
 	private int baidu=0;
 	private int youdao=0;
 	private int bing=0;
-	private int first=1;
-	private int second=2;
-	private int third=3;
+	
+	private boolean zanbaidu=false;
+	private boolean zanyoudao=false;
+	private boolean zanbing=false;
+	
 	
 	private boolean type;//true: 搜索 false: 点赞
+	public void SetZanbaidu(boolean b){
+		zanbaidu=b;
+	}
+	public boolean GetZanbaidu(){
+		return zanbaidu;
+	}
+	public void SetZanyoudao(boolean b){
+		zanyoudao=b;
+	}
+	public boolean GetZanyoudao(){
+		return zanyoudao;
+	}
+	public void SetZanbing(boolean b){
+		zanbing=b;
+	}
+	public boolean GetZanbing(){
+		return zanbing;
+	}
+	public void SetAccount(String a){
+		account=a;
+	}
+	public String GetAccount(){
+		return account;
+	}
 	public WordZan(){
 		;
 	}
@@ -24,6 +52,9 @@ public class WordZan implements Serializable{//某个单词的赞数目
 		youdao=w.getYoudao();
 		bing=w.getBing();
 		type=w.getType();
+		zanbaidu=w.GetZanbaidu();
+		zanyoudao=w.GetZanyoudao();
+		zanbing=w.GetZanbing();
 	}
 	public String getWord(){
 		return word;

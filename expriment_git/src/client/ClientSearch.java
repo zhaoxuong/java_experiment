@@ -580,6 +580,7 @@ public class ClientSearch extends JFrame implements Constant {
 	}
 	public void jtabaiduset() {// 输出框设置
 
+
 		jtaBaidu1.setBorder(BorderFactory.createLineBorder(Color.red, 1));
 		jtaBing1.setBorder(BorderFactory.createLineBorder(Color.red, 1));
 		jtaYoudao1.setBorder(BorderFactory.createLineBorder(Color.red, 1));
@@ -648,7 +649,7 @@ public class ClientSearch extends JFrame implements Constant {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				searchWord(jtfWord.getText(), true);
+				searchWord(jtfWord.getText());
 				jtfWord.requestFocusInWindow();
 			}
 		}, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -661,7 +662,9 @@ public class ClientSearch extends JFrame implements Constant {
 			// error
 			Object object = fromServer.readObject();
 			wordZan.update((WordZan) object);
-			// 这是从服务器获取的解释，放到文本域中，并且更新布局，即点赞多的放前面，点赞次数已经存在WordZan中
+			// 这是从服务器获取的解释，放到文本域中，并且更新布局，即点赞多的放前面，
+			//点赞次数已经存在WordZan中
+			//有没有点赞也已经放在WordZan中
 			if (wordZan.getType()) {
 				flag=1;
 				fromServer1 = new DataInputStream(socketSearch.getInputStream());
@@ -754,9 +757,11 @@ public class ClientSearch extends JFrame implements Constant {
 		}
 	}
 
-	public void searchWord(String word, boolean tb) {
+	public void searchWord(String word) {
+		wordZan.SetAccount(ta);
+		wordZan.setType(true);
+
 		try {
-			if (tb) {// 搜索单词
 				if (word.equals(wordZan.getWord())) {
 					System.out.print("baidu:  " + countBaidu + "    ");
 					System.out.println(wordZan.getBaidu());
@@ -767,27 +772,30 @@ public class ClientSearch extends JFrame implements Constant {
 					return;
 				} else {
 					wordZan.setWord(word);
-					/*wordZan.setBaidu(0);
-					wordZan.setYoudao(0);
-					wordZan.setBing(0);*/
-					wordZan.setType(true);//我觉得应该是set
+					//我觉得应该是set
 				}
 				toServer = new ObjectOutputStream(socketSearch.getOutputStream());
 				toServer.writeObject(wordZan);
 				fromServer = new ObjectInputStream(socketSearch.getInputStream());
 				TextSet();
-			} else {// 点赞,WordZan中百度有道必应已经配置好了
-				wordZan.setType(false);
-				toServer = new ObjectOutputStream(socketSearch.getOutputStream());
-				toServer.writeObject(wordZan);
-				fromServer = new ObjectInputStream(socketSearch.getInputStream());
-				TextSet();
-			}
 		} catch (IOException e) {
 			System.err.println(e);
 		}
 	}
 
+	public void changeZan() {
+		wordZan.setType(false);
+		wordZan.SetAccount(ta);
+		try {
+			toServer = new ObjectOutputStream(socketSearch.getOutputStream());
+			toServer.writeObject(wordZan);
+			fromServer = new ObjectInputStream(socketSearch.getInputStream());
+			TextSet();
+		} catch (IOException e) {
+			// TODO: handle exception
+			System.err.println(e);
+		}
+	}
 	public void getFriend() {
 		try {
 			toServer1 = new DataOutputStream(socketFriend.getOutputStream());
@@ -839,7 +847,7 @@ public class ClientSearch extends JFrame implements Constant {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				searchWord(jtfWord.getText(), true);
+				searchWord(jtfWord.getText());
 			
 			}
 		});
@@ -1160,7 +1168,7 @@ public class ClientSearch extends JFrame implements Constant {
 		setjpanel();
 		jtfWord.setText(in);
 		if(issearch==1)
-		    searchWord(in, true);
+		    searchWord(in);
 		
 	}
 }

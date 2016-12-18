@@ -1,5 +1,6 @@
 package head;
 
+import java.awt.SecondaryLoop;
 import java.io.*;
 
 public class WordZan implements Serializable{//某个单词的赞数目
@@ -7,6 +8,10 @@ public class WordZan implements Serializable{//某个单词的赞数目
 	private int baidu=0;
 	private int youdao=0;
 	private int bing=0;
+	private int first=1;
+	private int second=2;
+	private int third=3;
+	
 	private boolean type;//true: 搜索 false: 点赞
 	public WordZan(){
 		;
@@ -35,6 +40,7 @@ public class WordZan implements Serializable{//某个单词的赞数目
 	public void addBaidu(){
 		baidu++;
 	}
+	
 	public int getYoudao(){
 		return youdao;
 	}
@@ -43,6 +49,9 @@ public class WordZan implements Serializable{//某个单词的赞数目
 	}
 	public void addYoudao(){
 		youdao++;
+	}
+	public void deYoudao(){
+		youdao--;
 	}
 	public int getBing(){
 		return bing;
@@ -53,10 +62,27 @@ public class WordZan implements Serializable{//某个单词的赞数目
 	public void addBing(){
 		bing++;
 	}
+	public void deBing(){
+		bing--;
+	}
 	public boolean getType(){
 		return type;
 	}
 	public void setType(boolean b){
 		type=b;
 	}
+	public void deBaidu() {
+		// TODO Auto-generated method stub
+		baidu--;
+	}
+	public int max(){
+		int max = (baidu > youdao) ? baidu : youdao;
+		max = (max > bing) ? max : bing;
+		if(max==baidu) return 1;
+		else
+		if(max==youdao) return 2;
+		else 
+			return 3;
+	}
+	
 }

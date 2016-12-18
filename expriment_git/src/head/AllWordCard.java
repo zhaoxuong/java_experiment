@@ -6,12 +6,14 @@ public class AllWordCard {
 
 	public static Vector<WordCard> vCard=new Vector<>();
 	public static void Add(WordCard w){
-		if(vCard.indexOf(w)!=-1){
-			;
+		for(int i=0;i<vCard.size();i++){
+			if((vCard.get(i).getAccount().equals(w.getAccount()))&&
+					(vCard.get(i).getWord().equals(w.getWord()))&&
+					(vCard.get(i).getBest()==w.getBest())){
+				return;
+			}
 		}
-		else{
-			vCard.add(w);
-		}
+		vCard.add(w);
 	}
 	public static void Delete(WordCard w){
 		for(int i=0;i<vCard.size();i++){

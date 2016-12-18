@@ -19,6 +19,7 @@ public class ServerSearch extends JFrame {
 
 	Connection connection = null;
 	Statement statement = null;
+	Statement statement1 = null;
 	ResultSet resultSet = null;
 
 	YouDaodef resultYouDao = new YouDaodef();
@@ -123,6 +124,7 @@ public class ServerSearch extends JFrame {
 
 			try {
 				statement = connection.createStatement();
+				statement1 = connection.createStatement();
 				if (((WordZan) o).getType()) {// 为了得到总的赞数
 					resultSet = statement.executeQuery(
 							"SELECT word, baidu, youdao, bing FROM [dbo].[WordZan] WHERE word='" + a + "'");
@@ -131,84 +133,107 @@ public class ServerSearch extends JFrame {
 						((WordZan) o).setYoudao(resultSet.getInt(3));
 						((WordZan) o).setBing(resultSet.getInt(4));
 					} else {
-						statement
+						statement1
 								.executeUpdate("INSERT  [dbo].[WordZan] ( [word], [baidu],[youdao],[bing] ) VALUES  ( '"
 										+ a + "', 0,0,0);");
 						((WordZan) o).setBaidu(0);
 						((WordZan) o).setYoudao(0);
 						((WordZan) o).setBing(0);
 					}
-				}
-				// 得到是否点赞了
-				resultSet = statement.executeQuery("SELECT baidu, youdao, bing FROM [dbo].[zan] WHERE account='"
-						+ account + "' AND word='" + a + "'");
-				if (resultSet.next()) {
-					if (resultSet.getInt(1) == 1) {
-						if (((WordZan) o).GetZanbaidu() == false) {
-							statement.executeUpdate(
-									"UPDATE zan SET baidu=0 WHERE account='" + account + "' AND word='" + a + "'");
-							statement.executeUpdate("UPDATE WordZan SET baidu=baidu-1 WHERE word='" + a + "'");
-							((WordZan) o).deBaidu();
+
+					resultSet = statement.executeQuery("SELECT baidu, youdao, bing FROM [dbo].[zan] WHERE account='"
+							+ account + "' AND word='" + a + "'");
+					if (resultSet.next()) {
+						if (resultSet.getInt(1) == 1) {
+							((WordZan) o).SetZanbaidu(true);
+						} else {
+							((WordZan) o).SetZanbaidu(false);
+						}
+						if (resultSet.getInt(2) == 1) {
+							((WordZan) o).SetZanyoudao(true);
+						} else {
+							((WordZan) o).SetZanyoudao(false);
+						}
+						if (resultSet.getInt(3) == 1) {
+							((WordZan) o).SetZanbing(true);
+						} else {
+							((WordZan) o).SetZanbing(false);
 						}
 					} else {
-						if (((WordZan) o).GetZanbaidu() == true) {
-							statement.executeUpdate(
-									"UPDATE zan SET baidu=1 WHERE account='" + account + "' AND word='" + a + "'");
-							statement.executeUpdate("UPDATE WordZan SET baidu=baidu+1 WHERE word='" + a + "'");
-							((WordZan) o).addBaidu();
-						}
-					}
-					if (resultSet.getInt(2) == 1) {
-						if (((WordZan) o).GetZanyoudao() == false) {
-							statement.executeUpdate(
-									"UPDATE zan SET youdao=0 WHERE account='" + account + "' AND word='" + a + "'");
-							statement.executeUpdate("UPDATE WordZan SET youdao=youdao-1 WHERE word='" + a + "'");
-							((WordZan) o).deYoudao();
-						}
-					} else {
-						if (((WordZan) o).GetZanyoudao() == true) {
-							statement.executeUpdate(
-									"UPDATE zan SET youdao=1 WHERE account='" + account + "' AND word='" + a + "'");
-							statement.executeUpdate("UPDATE WordZan SET youdao=youdao+1 WHERE word='" + a + "'");
-							((WordZan) o).addYoudao();
-						}
-					}
-					if (resultSet.getInt(3) == 1) {
-						if (((WordZan) o).GetZanbing() == false) {
-							statement.executeUpdate(
-									"UPDATE zan SET bing=0 WHERE account='" + account + "' AND word='" + a + "'");
-							statement.executeUpdate("UPDATE WordZan SET bing=bing-1 WHERE word='" + a + "'");
-							((WordZan) o).deBing();
-						}
-					} else {
-						if (((WordZan) o).GetZanbing() == true) {
-							statement.executeUpdate(
-									"UPDATE zan SET bing=1 WHERE account='" + account + "' AND word='" + a + "'");
-							statement.executeUpdate("UPDATE WordZan SET bing=bing+1 WHERE word='" + a + "'");
-							((WordZan) o).addBing();
-						}
+						((WordZan) o).SetZanbaidu(false);
+						((WordZan) o).SetZanyoudao(false);
+						((WordZan) o).SetZanbing(false);
 					}
 				} else {
-					int t1 = 0;
-					int t2 = 0;
-					int t3 = 0;
-					if (((WordZan) o).GetZanbaidu() == true) {
-						t1 = 1;
-						statement.executeUpdate("UPDATE WordZan SET baidu=baidu+1 WHERE word='" + a + "'");
+					resultSet = statement.executeQuery("SELECT baidu, youdao, bing FROM [dbo].[zan] WHERE account='"
+							+ account + "' AND word='" + a + "'");
+					if (resultSet.next()) {
+						if (resultSet.getInt(1) == 1) {
+							if (((WordZan) o).GetZanbaidu() == false) {
+								statement1.executeUpdate(
+										"UPDATE zan SET baidu=0 WHERE account='" + account + "' AND word='" + a + "'");
+								statement1.executeUpdate("UPDATE WordZan SET baidu=baidu-1 WHERE word='" + a + "'");
+								((WordZan) o).deBaidu();
+							}
+						} else {
+							if (((WordZan) o).GetZanbaidu() == true) {
+								statement1.executeUpdate(
+										"UPDATE zan SET baidu=1 WHERE account='" + account + "' AND word='" + a + "'");
+								statement1.executeUpdate("UPDATE WordZan SET baidu=baidu+1 WHERE word='" + a + "'");
+								((WordZan) o).addBaidu();
+							}
+						}
+						if (resultSet.getInt(2) == 1) {
+							if (((WordZan) o).GetZanyoudao() == false) {
+								statement1.executeUpdate(
+										"UPDATE zan SET youdao=0 WHERE account='" + account + "' AND word='" + a + "'");
+								statement1.executeUpdate("UPDATE WordZan SET youdao=youdao-1 WHERE word='" + a + "'");
+								((WordZan) o).deYoudao();
+							}
+						} else {
+							if (((WordZan) o).GetZanyoudao() == true) {
+								statement1.executeUpdate(
+										"UPDATE zan SET youdao=1 WHERE account='" + account + "' AND word='" + a + "'");
+								statement1.executeUpdate("UPDATE WordZan SET youdao=youdao+1 WHERE word='" + a + "'");
+								((WordZan) o).addYoudao();
+							}
+						}
+						if (resultSet.getInt(3) == 1) {
+							if (((WordZan) o).GetZanbing() == false) {
+								statement1.executeUpdate(
+										"UPDATE zan SET bing=0 WHERE account='" + account + "' AND word='" + a + "'");
+								statement1.executeUpdate("UPDATE WordZan SET bing=bing-1 WHERE word='" + a + "'");
+								((WordZan) o).deBing();
+							}
+						} else {
+							if (((WordZan) o).GetZanbing() == true) {
+								statement1.executeUpdate(
+										"UPDATE zan SET bing=1 WHERE account='" + account + "' AND word='" + a + "'");
+								statement1.executeUpdate("UPDATE WordZan SET bing=bing+1 WHERE word='" + a + "'");
+								((WordZan) o).addBing();
+							}
+						}
+					} else {
+						int t1 = 0;
+						int t2 = 0;
+						int t3 = 0;
+						if (((WordZan) o).GetZanbaidu() == true) {
+							t1 = 1;
+							statement.executeUpdate("UPDATE WordZan SET baidu=baidu+1 WHERE word='" + a + "'");
+						}
+						if (((WordZan) o).GetZanyoudao() == true) {
+							t2 = 1;
+							statement.executeUpdate("UPDATE WordZan SET youdao=youdao+1 WHERE word='" + a + "'");
+						}
+						if (((WordZan) o).GetZanbing() == true) {
+							t3 = 1;
+							statement.executeUpdate("UPDATE WordZan SET bing=bing+1 WHERE word='" + a + "'");
+						}
+						statement.executeUpdate(
+								"INSERT  [dbo].[zan] ([account], [word], [baidu],[youdao],[bing] ) VALUES  ( '"
+										+ account + "','" + a + "', " + t1 + "," + t2 + "," + t3 + ");");
 					}
-					if (((WordZan) o).GetZanyoudao() == true) {
-						t2 = 1;
-						statement.executeUpdate("UPDATE WordZan SET youdao=youdao+1 WHERE word='" + a + "'");
-					}
-					if (((WordZan) o).GetZanbing() == true) {
-						t3 = 1;
-						statement.executeUpdate("UPDATE WordZan SET bing=bing+1 WHERE word='" + a + "'");
-					}
-					statement.executeUpdate(
-							"INSERT  [dbo].[zan] ([account], [word], [baidu],[youdao],[bing] ) VALUES  ( '" + account
-									+ "','" + a + "', " + t1 + "," + t2 + "," + t3 + ");");
 				}
-
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

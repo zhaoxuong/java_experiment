@@ -58,9 +58,6 @@ public class ClientSearch extends JFrame implements Constant {
 	private int flag1;
 	private int flag2;
 	private int flag3;
-	private int flagbaidu=0;
-			private int flagyoudao=0;
-	private int flagbing=0;
 	private int flag=0;
 	private ObjectInputStream fromServer;
 	private ObjectOutputStream toServer;
@@ -98,6 +95,12 @@ public class ClientSearch extends JFrame implements Constant {
 	 * 
 	 * }
 	 */
+	
+	public void WordZaninit(String in){
+		wordZan.setWord(in);
+		searchWord(in);
+		
+	}
 	public void jlblTitleset() {// 设置标题
 		jlblTitle.setFont(new Font("Serif", Font.BOLD, 13));
 		jlblTitle.setBackground(Color.GRAY);
@@ -112,7 +115,7 @@ public class ClientSearch extends JFrame implements Constant {
 				//jFrame.setVisible(false);
 				//jFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 				//System.out.println(in);
-				System.out.println("string="+string);
+				//System.out.println("string="+string);
 			
 				    new ClientSearch(ta,string,is);
 				
@@ -136,7 +139,8 @@ public class ClientSearch extends JFrame implements Constant {
 		// jbtSearch.setBackground(Color.GRAY);
 	}
 
-	public void jlblbaiduset() {// 百度等标签的设置		
+	public void jlblbaiduset() {// 百度等标签的设置	
+		
 		jlause=new JLabel(icon8);
 		jlause.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e){
@@ -149,7 +153,11 @@ public class ClientSearch extends JFrame implements Constant {
 				((CardLayout) pcard2.getLayout()).show(pcard2, "second");
 			}
 		});
-		jlblBaidu1 = new JLabel(icon1, SwingConstants.LEFT);
+		
+		if(!wordZan.GetZanbaidu())
+				jlblBaidu1 = new JLabel(icon1, SwingConstants.LEFT);
+		else
+				jlblBaidu1 = new JLabel(icon4, SwingConstants.LEFT);
 		jlblBaidu1.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
@@ -158,16 +166,18 @@ public class ClientSearch extends JFrame implements Constant {
 					jlblBaidu2.setIcon(icon4);
 					jlblBaidu3.setIcon(icon4);
 					jlblBaidu4.setIcon(icon4);
-					wordZan.addBaidu();
-					flagbaidu=1;
+					wordZan.SetZanbaidu(!wordZan.GetZanbaidu());
+					changeZan();
 
 				} else {
 					jlblBaidu1.setIcon(icon1);
 					jlblBaidu2.setIcon(icon1);
 					jlblBaidu3.setIcon(icon1);
 					jlblBaidu4.setIcon(icon1);
-					wordZan.deBaidu();
-					flagbaidu=0;
+					wordZan.SetZanbaidu(!wordZan.GetZanbaidu());
+					changeZan();
+					//wordZan.deBaidu();
+					//flagbaidu=0;
 				}
 
 			}
@@ -189,7 +199,10 @@ public class ClientSearch extends JFrame implements Constant {
 			}
 
 		});
-		jlblYoudao1 = new JLabel(icon2, SwingConstants.LEFT);
+		if(!wordZan.GetZanyoudao())
+			jlblYoudao1= new JLabel(icon2, SwingConstants.LEFT);
+	else
+			jlblYoudao1= new JLabel(icon5, SwingConstants.LEFT);
 		jlblYoudao1.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
@@ -198,15 +211,15 @@ public class ClientSearch extends JFrame implements Constant {
 					jlblYoudao2.setIcon(icon5);
 					jlblYoudao3.setIcon(icon5);
 					jlblYoudao4.setIcon(icon5);
-					wordZan.addYoudao();
-					flagbaidu=1;
+					wordZan.SetZanyoudao(!wordZan.GetZanyoudao());
+					changeZan();
 				} else {
 					jlblYoudao1.setIcon(icon2);
 					jlblYoudao2.setIcon(icon2);
 					jlblYoudao3.setIcon(icon2);
 					jlblYoudao4.setIcon(icon2);
-					wordZan.deYoudao();
-					flagbaidu=0;
+					wordZan.SetZanyoudao(!wordZan.GetZanyoudao());
+					changeZan();
 				}
 
 			}
@@ -223,7 +236,10 @@ public class ClientSearch extends JFrame implements Constant {
 
 			}
 		});
-		jlblBing1 = new JLabel(icon3, SwingConstants.LEFT);
+		if(!wordZan.GetZanbing())
+			jlblBing1= new JLabel(icon3, SwingConstants.LEFT);
+	else
+			jlblBing1= new JLabel(icon6, SwingConstants.LEFT);
 		jlblBing1.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
@@ -232,15 +248,15 @@ public class ClientSearch extends JFrame implements Constant {
 					jlblBing2.setIcon(icon6);
 					jlblBing3.setIcon(icon6);
 					jlblBing4.setIcon(icon6);
-					wordZan.addBing();
-					flagbaidu=1;
+					wordZan.SetZanbing(!wordZan.GetZanbing());
+					changeZan();
 				} else {
 					jlblBing1.setIcon(icon3);
 					jlblBing2.setIcon(icon3);
 					jlblBing3.setIcon(icon3);
 					jlblBing4.setIcon(icon3);
-					wordZan.deBing();
-					flagbing=0;
+					wordZan.SetZanbing(!wordZan.GetZanbing());
+					changeZan();
 				}
 			}
 
@@ -257,7 +273,10 @@ public class ClientSearch extends JFrame implements Constant {
 			}
 		});
 
-		jlblBaidu2 = new JLabel(icon1, SwingConstants.LEFT);
+		if(!wordZan.GetZanbaidu())
+			jlblBaidu2= new JLabel(icon1, SwingConstants.LEFT);
+	else
+			jlblBaidu2 = new JLabel(icon4, SwingConstants.LEFT);
 		jlblBaidu2.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
@@ -266,15 +285,15 @@ public class ClientSearch extends JFrame implements Constant {
 					jlblBaidu2.setIcon(icon4);
 					jlblBaidu3.setIcon(icon4);
 					jlblBaidu4.setIcon(icon4);
-					wordZan.addBaidu();
-					flagbaidu=1;
+					wordZan.SetZanbaidu(!wordZan.GetZanbaidu());
+					changeZan();
 				} else {
 					jlblBaidu1.setIcon(icon1);
 					jlblBaidu2.setIcon(icon1);
 					jlblBaidu3.setIcon(icon1);
 					jlblBaidu4.setIcon(icon1);
-					wordZan.deBaidu();
-					flagbaidu=0;
+					wordZan.SetZanbaidu(!wordZan.GetZanbaidu());
+					changeZan();
 				}
 			}
 
@@ -291,7 +310,10 @@ public class ClientSearch extends JFrame implements Constant {
 
 			}
 		});
-		jlblYoudao2 = new JLabel(icon2, SwingConstants.LEFT);
+		if(!wordZan.GetZanyoudao())
+			jlblYoudao2= new JLabel(icon2, SwingConstants.LEFT);
+	else
+			jlblYoudao2= new JLabel(icon5, SwingConstants.LEFT);
 		jlblYoudao2.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
@@ -300,15 +322,15 @@ public class ClientSearch extends JFrame implements Constant {
 					jlblYoudao2.setIcon(icon5);
 					jlblYoudao3.setIcon(icon5);
 					jlblYoudao4.setIcon(icon5);
-					wordZan.addYoudao();
-					flagyoudao=1;
+					wordZan.SetZanyoudao(!wordZan.GetZanyoudao());
+					changeZan();
 				} else {
 					jlblYoudao1.setIcon(icon2);
 					jlblYoudao2.setIcon(icon2);
 					jlblYoudao3.setIcon(icon2);
 					jlblYoudao4.setIcon(icon2);
-					wordZan.deYoudao();
-					flagyoudao=0;
+					wordZan.SetZanyoudao(!wordZan.GetZanyoudao());
+					changeZan();
 				}
 			}
 
@@ -324,7 +346,10 @@ public class ClientSearch extends JFrame implements Constant {
 
 			}
 		});
-		jlblBing2 = new JLabel(icon3, SwingConstants.LEFT);
+		if(!wordZan.GetZanbing())
+			jlblBing2= new JLabel(icon3, SwingConstants.LEFT);
+	else
+			jlblBing2= new JLabel(icon6, SwingConstants.LEFT);
 		jlblBing2.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
@@ -333,15 +358,15 @@ public class ClientSearch extends JFrame implements Constant {
 					jlblBing2.setIcon(icon6);
 					jlblBing3.setIcon(icon6);
 					jlblBing4.setIcon(icon6);
-					wordZan.addBing();
-					flagbing=1;
+					wordZan.SetZanbing(!wordZan.GetZanbing());
+					changeZan();
 				} else {
 					jlblBing1.setIcon(icon3);
 					jlblBing2.setIcon(icon3);
 					jlblBing3.setIcon(icon3);
 					jlblBing4.setIcon(icon3);
-					wordZan.deBing();
-					flagbing=0;
+					wordZan.SetZanbing(!wordZan.GetZanbing());
+					changeZan();
 				}
 			}
 
@@ -357,7 +382,10 @@ public class ClientSearch extends JFrame implements Constant {
 
 			}
 		});
-		jlblBaidu3 = new JLabel(icon1, SwingConstants.LEFT);
+		 if(!wordZan.GetZanbaidu())
+			jlblBaidu3 = new JLabel(icon1, SwingConstants.LEFT);
+	else
+			jlblBaidu3 = new JLabel(icon4, SwingConstants.LEFT);
 		jlblBaidu3.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
@@ -366,15 +394,15 @@ public class ClientSearch extends JFrame implements Constant {
 					jlblBaidu2.setIcon(icon4);
 					jlblBaidu3.setIcon(icon4);
 					jlblBaidu4.setIcon(icon4);
-					wordZan.addBaidu();
-					flagbaidu=1;
+					wordZan.SetZanbaidu(!wordZan.GetZanbaidu());
+					changeZan();
 				} else {
 					jlblBaidu1.setIcon(icon1);
 					jlblBaidu2.setIcon(icon1);
 					jlblBaidu3.setIcon(icon1);
 					jlblBaidu4.setIcon(icon1);
-					wordZan.deBaidu();
-					flagbaidu=0;
+					wordZan.SetZanbaidu(!wordZan.GetZanbaidu());
+					changeZan();
 				}
 			}
 
@@ -390,7 +418,10 @@ public class ClientSearch extends JFrame implements Constant {
 
 			}
 		});
-		jlblYoudao3 = new JLabel(icon2, SwingConstants.LEFT);
+		if(!wordZan.GetZanyoudao())
+			jlblYoudao3= new JLabel(icon2, SwingConstants.LEFT);
+	else
+			jlblYoudao3= new JLabel(icon5, SwingConstants.LEFT);
 		jlblYoudao3.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
@@ -399,16 +430,16 @@ public class ClientSearch extends JFrame implements Constant {
 					jlblYoudao2.setIcon(icon5);
 					jlblYoudao3.setIcon(icon5);
 					jlblYoudao4.setIcon(icon5);
-					wordZan.addYoudao();
-					flagyoudao=1;
+					wordZan.SetZanyoudao(!wordZan.GetZanyoudao());
+					changeZan();
 					
 				} else {
 					jlblYoudao1.setIcon(icon2);
 					jlblYoudao2.setIcon(icon2);
 					jlblYoudao3.setIcon(icon2);
 					jlblYoudao4.setIcon(icon2);
-					wordZan.deYoudao();
-					flagyoudao=1;
+					wordZan.SetZanyoudao(!wordZan.GetZanyoudao());
+					changeZan();
 				}
 			}
 
@@ -424,7 +455,10 @@ public class ClientSearch extends JFrame implements Constant {
 
 			}
 		});
-		jlblBing3 = new JLabel(icon3, SwingConstants.LEFT);
+		if(!wordZan.GetZanbing())
+			jlblBing3= new JLabel(icon3, SwingConstants.LEFT);
+	else
+			jlblBing3= new JLabel(icon6, SwingConstants.LEFT);
 		jlblBing3.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
@@ -433,15 +467,15 @@ public class ClientSearch extends JFrame implements Constant {
 					jlblBing2.setIcon(icon6);
 					jlblBing3.setIcon(icon6);
 					jlblBing4.setIcon(icon6);
-					wordZan.addBing();
-					flagbing=1;
+					wordZan.SetZanbing(!wordZan.GetZanbing());
+					changeZan();
 				} else {
 					jlblBing1.setIcon(icon3);
 					jlblBing2.setIcon(icon3);
 					jlblBing3.setIcon(icon3);
 					jlblBing4.setIcon(icon3);
-					wordZan.deBing();
-					flagbing=0;
+					wordZan.SetZanbing(!wordZan.GetZanbing());
+					changeZan();
 				}
 			}
 
@@ -457,7 +491,11 @@ public class ClientSearch extends JFrame implements Constant {
 
 			}
 		});
-		jlblBaidu4 = new JLabel(icon1, SwingConstants.LEFT);
+		if(!wordZan.GetZanbaidu())
+			jlblBaidu4= new JLabel(icon1, SwingConstants.LEFT);
+	else
+			jlblBaidu4= new JLabel(icon4, SwingConstants.LEFT);
+		
 		jlblBaidu4.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
@@ -466,15 +504,15 @@ public class ClientSearch extends JFrame implements Constant {
 					jlblBaidu2.setIcon(icon4);
 					jlblBaidu3.setIcon(icon4);
 					jlblBaidu4.setIcon(icon4);
-					wordZan.addBaidu();
-					flagbaidu=1;
+					wordZan.SetZanbaidu(!wordZan.GetZanbaidu());
+					changeZan();
 				} else {
 					jlblBaidu1.setIcon(icon1);
 					jlblBaidu2.setIcon(icon1);
 					jlblBaidu3.setIcon(icon1);
 					jlblBaidu4.setIcon(icon1);
-					wordZan.deBaidu();
-					flagbaidu=1;
+					wordZan.SetZanbaidu(!wordZan.GetZanbaidu());
+					changeZan();
 				}
 			}
 
@@ -490,7 +528,10 @@ public class ClientSearch extends JFrame implements Constant {
 
 			}
 		});
-		jlblYoudao4 = new JLabel(icon2, SwingConstants.LEFT);
+		if(!wordZan.GetZanyoudao())
+			jlblYoudao4= new JLabel(icon2, SwingConstants.LEFT);
+	else
+			jlblYoudao4= new JLabel(icon5, SwingConstants.LEFT);
 		jlblYoudao4.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
@@ -499,13 +540,15 @@ public class ClientSearch extends JFrame implements Constant {
 					jlblYoudao2.setIcon(icon5);
 					jlblYoudao3.setIcon(icon5);
 					jlblYoudao4.setIcon(icon5);
-					wordZan.addYoudao();
+					wordZan.SetZanyoudao(!wordZan.GetZanyoudao());
+					changeZan();
 				} else {
 					jlblYoudao1.setIcon(icon2);
 					jlblYoudao2.setIcon(icon2);
 					jlblYoudao3.setIcon(icon2);
 					jlblYoudao4.setIcon(icon2);
-					wordZan.deYoudao();
+					wordZan.SetZanyoudao(!wordZan.GetZanyoudao());
+					changeZan();
 				}
 			}
 
@@ -521,7 +564,11 @@ public class ClientSearch extends JFrame implements Constant {
 
 			}
 		});
-		jlblBing4 = new JLabel(icon3, SwingConstants.LEFT);
+		if(!wordZan.GetZanbing())
+			jlblBing4= new JLabel(icon3, SwingConstants.LEFT);
+	else
+			jlblBing4= new JLabel(icon6, SwingConstants.LEFT);
+		
 		jlblBing4.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
@@ -530,13 +577,15 @@ public class ClientSearch extends JFrame implements Constant {
 					jlblBing2.setIcon(icon6);
 					jlblBing3.setIcon(icon6);
 					jlblBing4.setIcon(icon6);
-					wordZan.addBing();
+					wordZan.SetZanbing(!wordZan.GetZanbing());
+					changeZan();
 				} else {
 					jlblBing1.setIcon(icon3);
 					jlblBing2.setIcon(icon3);
 					jlblBing3.setIcon(icon3);
 					jlblBing4.setIcon(icon3);
-					wordZan.deBing();
+					wordZan.SetZanbing(!wordZan.GetZanbing());
+					changeZan();
 				}
 			}
 
@@ -738,12 +787,6 @@ public class ClientSearch extends JFrame implements Constant {
 				jtaBing4.setCaretPosition(0);
 				
 				//System.out.println(sbaidu);
-				System.out.print("baidu:  " + countBaidu + "    ");
-				System.out.println(wordZan.getBaidu());
-				System.out.print("youdao:  " + countYoudao + "    ");
-				System.out.println(wordZan.getYoudao());
-				System.out.print("bing:  " + countBing + "    ");
-				System.out.println(wordZan.getBing());
 			} else {// 点赞，只是更新了点赞次数，所以只更新布局
 				//setjpanel();
 			}
@@ -763,12 +806,7 @@ public class ClientSearch extends JFrame implements Constant {
 
 		try {
 				if (word.equals(wordZan.getWord())) {
-					System.out.print("baidu:  " + countBaidu + "    ");
-					System.out.println(wordZan.getBaidu());
-					System.out.print("youdao:  " + countYoudao + "    ");
-					System.out.println(wordZan.getYoudao());
-					System.out.print("bing:  " + countBing + "    ");
-					System.out.println(wordZan.getBing());
+					
 					return;
 				} else {
 					wordZan.setWord(word);
@@ -884,8 +922,7 @@ public class ClientSearch extends JFrame implements Constant {
 		jtfWordSet();
 		jbtSearchSet();
 		jbxbaiduset();
-		jlistset();
-		
+		jlistset();	
 		getFriend();
 		JScrollPane jsBaidu1 = new JScrollPane(jtaBaidu1);
 		JScrollPane jsBaidu2 = new JScrollPane(jtaBaidu2);
@@ -985,6 +1022,8 @@ public class ClientSearch extends JFrame implements Constant {
 		p45.setLayout(new GridLayout(2, 1, 1, 5));
 		JPanel p345 = new JPanel();
 		p345.setLayout(new GridLayout(3, 1, 1, 5));
+		
+		
 		
 		if(wordZan.getBaidu()>=wordZan.getYoudao()){
 			p34.add(p32);
@@ -1164,11 +1203,26 @@ public class ClientSearch extends JFrame implements Constant {
 		}
 		flag1 = flag2 = flag3 = 0;
 		// flagBaidu=flagBing=flagYoudao=0;
-		
+		System.out.println("string="+wordZan.getWord());
+		System.out.print("baidu:  " + countBaidu + "    ");
+		System.out.println(wordZan.getBaidu());
+		System.out.print("youdao:  " + countYoudao + "    ");
+		System.out.println(wordZan.getYoudao());
+		System.out.print("bing:  " + countBing + "    ");
+		System.out.println(wordZan.getBing());
 		setjpanel();
+		
 		jtfWord.setText(in);
 		if(issearch==1)
 		    searchWord(in);
+		System.out.println(wordZan.getWord());
+		System.out.print("baidu:  " + countBaidu + "    ");
+		System.out.println(wordZan.getBaidu());
+		System.out.print("youdao:  " + countYoudao + "    ");
+		System.out.println(wordZan.getYoudao());
+		System.out.print("bing:  " + countBing + "    ");
+		System.out.println(wordZan.getBing());
+	
 		
 	}
 }

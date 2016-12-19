@@ -102,7 +102,7 @@ public class ClientSign extends JFrame{
 			fromServer=new DataInputStream(socket.getInputStream());
 			boolean b=fromServer.readBoolean();
 			if(b){
-				new ClientSearch(jtfAccount.getText(),new WordZan(),0,new beifen());
+				new ClientSearch(jtfAccount.getText(),new WordZan(null),0,new beifen());
 			}
 			else{
 				System.out.println("ÓÃ»§ÃÜÂë´íÎó£¡");

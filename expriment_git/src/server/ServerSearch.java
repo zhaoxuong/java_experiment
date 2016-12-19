@@ -269,8 +269,11 @@ public class ServerSearch extends JFrame {
 					try {
 						statement = connection.createStatement();
 						resultSet = statement.executeQuery(
+								"SELECT count(*) as row FROM [dbo].[Account] ");
+						resultSet.next();
+						toClient.writeInt(resultSet.getInt("row"));
+						resultSet = statement.executeQuery(
 								"SELECT aString FROM [dbo].[Account] ");
-						toClient.writeInt(resultSet.getRow());
 						while(resultSet.next()){
 							toClient.writeUTF(resultSet.getString(1));
 						}

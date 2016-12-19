@@ -13,6 +13,9 @@ public class ClientSign extends JFrame{
 	private JTextField jtfPassword=new JTextField();
 	private JButton jbtSignIn=new JButton("登录");
 	private JButton jbtSignUp=new JButton("注册");
+	private JFrame jFrame1=new JFrame();
+	private JFrame jFrame2=new JFrame();
+	
 	
 	private Socket socket;
 	private DataInputStream fromServer;
@@ -25,33 +28,40 @@ public class ClientSign extends JFrame{
 	public ClientSign(){
 		jbtSignUpSet();
 		jbtSignInSet();
+		jtfAccount.setPreferredSize(new Dimension(100, 20));
+		jtfPassword.setPreferredSize(new Dimension(100, 20));
 		
 		Panel p1=new Panel();
-		p1.setLayout(new BorderLayout());
-		p1.add(jlblAccount, BorderLayout.WEST);
-		p1.add(jtfAccount, BorderLayout.CENTER);
+		p1.setLayout(new FlowLayout());
+		p1.add(jlblAccount);
+		p1.add(jtfAccount);
 		
 		Panel p2=new Panel();
-		p2.setLayout(new BorderLayout());
-		p2.add(jlblPassword, BorderLayout.WEST);
-		p2.add(jtfPassword, BorderLayout.CENTER);
+		p2.setLayout(new FlowLayout());
+		p2.add(jlblPassword);
+		p2.add(jtfPassword);
 		
 		Panel p3=new Panel();
-		p3.setLayout(new GridLayout(1, 2));
+		p3.setLayout(new FlowLayout());
 		p3.add(jbtSignIn);
 		p3.add(jbtSignUp);
 		
-		setLayout(new GridLayout(3, 1));
-		add(p1);
-		add(p2);
-		add(p3);
 		
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Sign");
-		setSize(300, 300);
-		setLocation(0, 600);
-		setVisible(true);
+		
+		jFrame2.setLayout(new GridLayout(3, 1,10,10));
+		jFrame2.add(p1);
+		jFrame2.add(p2);
+		jFrame2.add(p3);
+		
+		
+		
+		
+		jFrame2.setLocationRelativeTo(null);
+		jFrame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jFrame2.setTitle("Sign");
+		jFrame2.setSize(250, 150);
+		jFrame2.setLocation(0, 600);
+		jFrame2.setVisible(true);
 	}
 	
 	public void jbtSignUpSet(){
@@ -61,6 +71,7 @@ public class ClientSign extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				signUpFrame();//弹出一个框，提示输入用户名与密码
+				jFrame2.setVisible(false);
 			}
 		});
 	}
@@ -107,25 +118,41 @@ public class ClientSign extends JFrame{
 		JTextField jtfAccount1=new JTextField();
 		JLabel jlblPassword1=new JLabel("密码");
 		JTextField jtfPassword1=new JTextField();
+	    JButton jbtSignIn1=new JButton("登录");
 		JButton jbtSignUp1=new JButton("注册");
 		JFrame jFrame1=new JFrame("SignUp");
+		jtfAccount1.setPreferredSize(new Dimension(100, 20));
+		jtfPassword1.setPreferredSize(new Dimension(100, 20));
 		Panel p11=new Panel();
-		p11.setLayout(new BorderLayout());
-		p11.add(jlblAccount1, BorderLayout.WEST);
-		p11.add(jtfAccount1, BorderLayout.CENTER);
+		p11.setLayout(new FlowLayout());
+		p11.add(jlblAccount1);
+		p11.add(jtfAccount1);
 		Panel p21=new Panel();
-		p21.setLayout(new BorderLayout());
-		p21.add(jlblPassword1, BorderLayout.WEST);
-		p21.add(jtfPassword1, BorderLayout.CENTER);
+		p21.setLayout(new FlowLayout());
+		p21.add(jlblPassword1);
+		p21.add(jtfPassword1);
+		Panel p31=new Panel();
+		p31.setLayout(new FlowLayout());
+		p31.add(jbtSignIn1);
+		p31.add(jbtSignUp1);
 		jFrame1.setLayout(new GridLayout(3, 1));
 		jFrame1.add(p11);
 		jFrame1.add(p21);
-		jFrame1.add(jbtSignUp1);
+		jFrame1.add(p31);
 		jFrame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jFrame1.setTitle("SignUp");
-		jFrame1.setSize(300, 300);
+		jFrame1.setSize(250, 150);
 		jFrame1.setVisible(true);
 		jFrame1.setLocation(540, 600);
+		jbtSignIn1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				jFrame1.setVisible(false);
+				jFrame2.setVisible(true);
+			}
+		});
 		jbtSignUp1.addActionListener(new ActionListener() {
 			
 			@Override

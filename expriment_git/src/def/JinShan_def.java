@@ -61,11 +61,20 @@ public class JinShan_def {
 	public void getJinShanValue(String str) {
 		try {
 			count = 0;
-			getresult = new String[100];
+			//getresult = new String[100];
 			String result = null;
 
 			// ∑¢ÀÕGET«Î«Û∑≠“Î
 			result = sendGet(str);
+			if(result.length()<150){
+				count=1;
+				getresult[0]="what you input is wrong";
+				//getresult[1]="what you input is wrong";
+				//System.out.println(result.length());
+				return ;
+			  }else{
+				  
+			  System.out.println("test2");
 			int re1 = result.indexOf("<pos>");
 			int re2 = result.indexOf(".</pos>");
 			int re3 = result.indexOf("<acceptation>");
@@ -113,6 +122,7 @@ public class JinShan_def {
 				re2 = result.indexOf("</orig>");
 				re3 = result.indexOf("<trans>");
 				re4 = result.indexOf("</trans>");
+			}
 
 			}
 		} catch (Exception e) {

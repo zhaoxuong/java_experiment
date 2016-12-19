@@ -69,6 +69,15 @@ public class Bing_def {
 
 			// ·¢ËÍGETÇëÇó·­Òë
 			result = sendGet(str);
+			if(result.length()<100){
+				count=1;
+				getresult[0]="what you input is wrong";
+				//System.out.println(result.length());
+				
+			}
+			else{
+				
+			System.out.println("error1");
 			int re1 = result.indexOf("\"pos\":\"");
 			result = result.substring(re1);
 			re1 = 0;
@@ -122,6 +131,7 @@ public class Bing_def {
 				re3 = result.indexOf("\"chn\":\"");
 				re4 = result.indexOf("\",\"mp3");
 				// System.out.println(re1+" "+re2+" "+re3+" "+re4);
+			}
 			}
 
 		} catch (Exception e) {

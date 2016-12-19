@@ -789,6 +789,8 @@ public class ClientSearch extends JFrame implements Constant {
 				((CardLayout) pcard2.getLayout()).show(pcard2, "first");
 			}
 		});
+		
+		
 	}
 	public void jtabaiduset() {// 输出框设置
 
@@ -1383,6 +1385,22 @@ public class ClientSearch extends JFrame implements Constant {
 		pword.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		pword.add(pcard2);
 		
+		
+		ImageIcon bg = new ImageIcon("背景原图.jpg"); // 把背景图片显示在一个标签里
+		 JLabel label = new JLabel(bg); //把标签的大小位置设置为图片刚好填充整个面
+		label.setBounds(0,0,bg.getIconWidth(),bg.getIconHeight());
+		 //添加图到frame的第二层  
+		jFrame.getLayeredPane().add(label,new Integer(Integer.MIN_VALUE)); 
+		//获取frame的最上层面板为了设置其背景颜色（JPanel有设置透明的方法） 
+		JPanel jp=(JPanel)jFrame.getContentPane();
+		jp.setOpaque(false);//设置透明
+		
+		puser.setBackground(null);                      // 把背景设置为会  
+		puser.setOpaque(false);  
+		pword.setBackground(null);                      // 把背景设置为会  
+		pword.setOpaque(false); 
+		plast.setBackground(Color.black);                      // 把背景设置为会  
+		plast.setOpaque(false); 
 		
 		jFrame.setLayout(new FlowLayout(FlowLayout.CENTER));
 		jFrame.add(puser);

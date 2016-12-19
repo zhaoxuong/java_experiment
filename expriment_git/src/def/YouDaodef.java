@@ -65,8 +65,15 @@ public class YouDaodef {
 
 			// 发送GET请求翻译
 			result = sendGet(str);
+			if(result.length()<300){
+				count=1;
+				getresult[0]="what you input is wrong";
+				//System.out.println(result.length());
+				return ;
+			  }else
+			  {
 			int num1, num2;
-
+			System.out.println("test3");
 			// 处理XML中的值
 			int re1 = result.indexOf("<errorCode>");
 			int re2 = result.indexOf("</errorCode>");
@@ -167,6 +174,7 @@ public class YouDaodef {
 //				System.out.println("无效的key");
 				// return "无效的key";
 			}
+			  }
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

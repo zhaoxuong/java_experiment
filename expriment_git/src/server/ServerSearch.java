@@ -35,7 +35,7 @@ public class ServerSearch extends JFrame {
 		setSize(500, 500);
 		setTitle("SearchServer");
 		setLocation(1040, 0);
-		setVisible(true);
+		setVisible(false);
 		try {
 			ServerSocket serverSocketSearch = new ServerSocket(10086);
 			jtaLog.append(new Date() + ": Server started at socket 10086\n");
@@ -343,7 +343,7 @@ public class ServerSearch extends JFrame {
 										+ ((WordCard) object).getAccount() + "'");
 						resultSet.next();
 						int n=resultSet.getInt("row");
-						System.out.println("=========="+n+"=========");
+						//System.out.println("=========="+n+"=========");
 						toClient1.writeInt(n);
 						
 						

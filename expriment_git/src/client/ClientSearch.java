@@ -267,7 +267,7 @@ public class ClientSearch extends JFrame implements Constant {
 				//System.out.println("two="+" "+[0]+"qq"+Two[1]+"qq"+Two[2]);
 				System.out.println("Sendword="+Sendword);
 				System.out.println(Num);
-				sendWordCard(wordZan.GetAccount(), Sendword,Num, DELETE);
+				sendWordCard(ta, Sendword,Num, DELETE);
 				
 			}
 		
@@ -278,7 +278,7 @@ public class ClientSearch extends JFrame implements Constant {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				//System.out.println(wordZan);
-				sendWordCard(wordZan.GetAccount(), wordZan.getWord(), wordZan.getbest(), UPDATE);
+				sendWordCard(ta, wordZan.getWord(), wordZan.getbest(), UPDATE);
 				
 			}
 		});

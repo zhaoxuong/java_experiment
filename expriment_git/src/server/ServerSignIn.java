@@ -29,7 +29,7 @@ public class ServerSignIn extends JFrame{
 		setSize(500, 500);
 		setTitle("SignInServer");//µÇÂ¼
 		setLocation(520, 0);
-		setVisible(true);
+		setVisible(false);
 		try {
 			ServerSocket serverSocket = new ServerSocket(10084);
 			jtaLog.append(new Date() + ": Server started at socket 10084\n");

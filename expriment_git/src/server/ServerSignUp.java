@@ -30,7 +30,7 @@ public class ServerSignUp extends JFrame implements Constant {
 		setSize(500, 500);
 		setTitle("SignUpServer");
 		setLocation(0, 0);
-		setVisible(true);
+		setVisible(false);
 
 		try {
 			ServerSocket serverSocket = new ServerSocket(10085);

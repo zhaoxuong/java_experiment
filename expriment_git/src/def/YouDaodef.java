@@ -73,7 +73,7 @@ public class YouDaodef {
 			  }else
 			  {
 			int num1, num2;
-			System.out.println("test3");
+			//System.out.println("test3");
 			// 处理XML中的值
 			int re1 = result.indexOf("<errorCode>");
 			int re2 = result.indexOf("</errorCode>");

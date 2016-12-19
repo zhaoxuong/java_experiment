@@ -74,7 +74,7 @@ public class JinShan_def {
 				return ;
 			  }else{
 				  
-			  System.out.println("test2");
+			  //System.out.println("test2");
 			int re1 = result.indexOf("<pos>");
 			int re2 = result.indexOf(".</pos>");
 			int re3 = result.indexOf("<acceptation>");

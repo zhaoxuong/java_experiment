@@ -77,7 +77,7 @@ public class Bing_def {
 			}
 			else{
 				
-			System.out.println("error1");
+			//System.out.println("error1");
 			int re1 = result.indexOf("\"pos\":\"");
 			result = result.substring(re1);
 			re1 = 0;

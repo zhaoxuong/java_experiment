@@ -131,8 +131,8 @@ public class ClientSearch extends JFrame implements Constant {
 				//System.out.println(in);
 				//System.out.println("string="+string);
 					WordZan temp=wordZan;
-					for(int i=0;i<now.getNumbaidu();i++)
-					System.out.println(now.getsBaiDu()[i]);
+					//for(int i=0;i<now.getNumbaidu();i++)
+					//System.out.println(now.getsBaiDu()[i]);
 				    new ClientSearch(ta,temp,1,now);
 				
 				
@@ -965,10 +965,35 @@ public class ClientSearch extends JFrame implements Constant {
 				jtaBing2.setCaretPosition(0);
 				jtaBing3.setCaretPosition(0);
 				jtaBing4.setCaretPosition(0);
+				String string=jtfWord.getText();
+				int is=flag;
+				//System.out.println(string);
+				jFrame.dispose();
+				//jFrame.setVisible(false);
+				//jFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+				//System.out.println(in);
+				//System.out.println("string="+string);
+					WordZan temp=wordZan;
+					//for(int i=0;i<now.getNumbaidu();i++)
+					//System.out.println(now.getsBaiDu()[i]);
+				    new ClientSearch(ta,temp,1,now);
 				
 				//System.out.println(sbaidu);
 			} else {// 点赞，只是更新了点赞次数，所以只更新布局
 				//setjpanel();
+				/*String string=jtfWord.getText();
+				int is=flag;
+				//System.out.println(string);
+				jFrame.dispose();
+				//jFrame.setVisible(false);
+				//jFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+				//System.out.println(in);
+				//System.out.println("string="+string);
+					WordZan temp=wordZan;
+					//for(int i=0;i<now.getNumbaidu();i++)
+					//System.out.println(now.getsBaiDu()[i]);
+				    new ClientSearch(ta,temp,1,now);
+				    */
 			}
 			
 		} catch (ClassNotFoundException e) {
@@ -1008,6 +1033,7 @@ public class ClientSearch extends JFrame implements Constant {
 				System.out.println("====="+wordZan.GetZanyoudao()+"======");
 				System.out.println("====="+wordZan.GetZanbing()+"======");*/
 				TextSet();
+				
 				
 		} catch (IOException e) {
 			System.err.println(e);

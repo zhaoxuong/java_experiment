@@ -266,6 +266,18 @@ public class ServerSearch extends JFrame {
 					for (int i = 0; i < v.size(); i++) {
 						toClient.writeUTF(v.get(i));
 					}
+					try {
+						statement = connection.createStatement();
+						resultSet = statement.executeQuery(
+								"SELECT aString FROM [dbo].[Account] ");
+						toClient.writeInt(resultSet.getRow());
+						while(resultSet.next()){
+							toClient.writeUTF(resultSet.getString(1));
+						}
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			} catch (IOException e) {
 				// TODO: handle exception

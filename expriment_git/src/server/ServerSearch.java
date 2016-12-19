@@ -268,13 +268,11 @@ public class ServerSearch extends JFrame {
 					}
 					try {
 						statement = connection.createStatement();
-						resultSet = statement.executeQuery(
-								"SELECT count(*) as row FROM [dbo].[Account] ");
+						resultSet = statement.executeQuery("SELECT count(*) as row FROM [dbo].[Account] ");
 						resultSet.next();
 						toClient.writeInt(resultSet.getInt("row"));
-						resultSet = statement.executeQuery(
-								"SELECT aString FROM [dbo].[Account] ");
-						while(resultSet.next()){
+						resultSet = statement.executeQuery("SELECT aString FROM [dbo].[Account] ");
+						while (resultSet.next()) {
 							toClient.writeUTF(resultSet.getString(1));
 						}
 					} catch (SQLException e) {
@@ -307,20 +305,56 @@ public class ServerSearch extends JFrame {
 				while (true) {
 					fromClient = new ObjectInputStream(client.getInputStream());
 					Object object = fromClient.readObject();
+					statement = connection.createStatement();
+					statement1 = connection.createStatement();
 					if (((WordCard) object).getType() == ADD) {
-						AllWordCard.Add(((WordCard) object));
+						// AllWordCard.Add(((WordCard) object));
+						resultSet = statement
+								.executeQuery("SELECT account, word, best FROM [dbo].[words] WHERE account='"
+										+ ((WordCard) object).getAccount() + "' AND word='"
+										+ ((WordCard) object).getWord() + "' AND best=" + ((WordCard) object).getBest()
+										+ "");
+						if (resultSet.next()) {
+							;
+						} else {
+							statement1.executeUpdate("INSERT  [dbo].[words] ( [account], [word],[best] ) VALUES  ( '"
+									+ ((WordCard) object).getAccount() + "','" + ((WordCard) object).getWord() + "',"
+									+ ((WordCard) object).getBest() + ");");
+						}
 					} else if (((WordCard) object).getType() == DELETE) {
-						AllWordCard.Delete(((WordCard) object));
+						//AllWordCard.Delete(((WordCard) object));
+						resultSet = statement
+								.executeQuery("SELECT account, word, best FROM [dbo].[words] WHERE account='"
+										+ ((WordCard) object).getAccount() + "' AND word='"
+										+ ((WordCard) object).getWord() + "' AND best=" + ((WordCard) object).getBest()
+										+ "");
+						if (resultSet.next()) {
+							statement1.executeUpdate("DELETE FROM  [dbo].[words] WHERE account='"
+										+ ((WordCard) object).getAccount() + "' AND word='"
+										+ ((WordCard) object).getWord() + "' AND best=" + ((WordCard) object).getBest()
+										+ "");
+						} else {
+							;
+						}
 					} else {// 更新，把自己的用户名发过来
 						toClient = new ObjectOutputStream(client.getOutputStream());
-						toClient1 = new DataOutputStream(client.getOutputStream());
-						Vector<WordCard> tVector = AllWordCard.GetAccountCard(((WordCard) object).getAccount());
-						toClient1.writeInt(tVector.size());
-						for (int i = 0; i < tVector.size(); i++) {
-							toClient.writeObject(tVector.get(i));
+						resultSet = statement.executeQuery("SELECT count(*) as row FROM [dbo].[words] WHERE account='"
+										+ ((WordCard) object).getAccount() + "'");
+						resultSet.next();
+						toClient.writeInt(resultSet.getInt("row"));
+						
+						resultSet = statement
+								.executeQuery("SELECT word, best FROM [dbo].[words] WHERE account='"
+										+ ((WordCard) object).getAccount() + "'");
+						while (resultSet.next()) {
+							WordCard wordCard=new WordCard(((WordCard) object).getAccount(),resultSet.getString(1) , resultSet.getInt(2), 0);
+							toClient.writeObject(wordCard);
 						}
 					}
 				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
 				// TODO: handle exception
 				e.printStackTrace();

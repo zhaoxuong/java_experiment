@@ -1024,6 +1024,11 @@ public class ClientSearch extends JFrame implements Constant {
 				s[i]=fromServer1.readUTF();
 				
 			}
+			//所有用户
+			int n=fromServer1.readInt();
+			for(int i=0;i<n;i++){
+				fromServer1.readUTF();
+			}
 			jluser.setListData(s);
 		} catch (IOException e) {
 			System.err.println(e);

@@ -91,6 +91,8 @@ public class ClientSearch extends JFrame implements Constant {
 	Socket socketWords;
 
 	WordZan wordZan = new WordZan();// 正在查询的单词
+	beifen  now=new beifen();
+	
 
 	String[] resultBaidu=null;
 	String[] resultYoudao=null;
@@ -129,7 +131,9 @@ public class ClientSearch extends JFrame implements Constant {
 				//System.out.println(in);
 				//System.out.println("string="+string);
 					WordZan temp=wordZan;
-				    new ClientSearch(ta,temp,1);
+					for(int i=0;i<now.getNumbaidu();i++)
+					System.out.println(now.getsBaiDu()[i]);
+				    new ClientSearch(ta,temp,1,now);
 				
 				
 			}
@@ -905,8 +909,10 @@ public class ClientSearch extends JFrame implements Constant {
 				jtaBing2.setText(null);
 				jtaBing3.setText(null);
 				jtaBing4.setText(null);
+				now.setNumbaidu(countBaidu);
 				for (int i = 0; i < countBaidu; i++) {
 					resultBaidu[i] = fromServer1.readUTF();
+					
 					jtaBaidu1.append(resultBaidu[i]);
 					jtaBaidu2.append(resultBaidu[i]);
 					jtaBaidu3.append(resultBaidu[i]);
@@ -914,16 +920,18 @@ public class ClientSearch extends JFrame implements Constant {
 					jtaBaidu1.append("\n");
 					jtaBaidu2.append("\n");
 					jtaBaidu3.append("\n");
-					jtaBaidu4.append("\n");
-					
-				}
+					jtaBaidu4.append("\n");				
+				}	
+				now.setsBaiDu(resultBaidu);
 				jtaBaidu1.setCaretPosition(0);
 				jtaBaidu2.setCaretPosition(0);
 				jtaBaidu3.setCaretPosition(0);
 				jtaBaidu4.setCaretPosition(0);
 				countYoudao = fromServer1.readInt();
+				now.setNumyoudao(countYoudao);
 				for (int i = 0; i < countYoudao; i++) {
 					resultYoudao[i] = fromServer1.readUTF();
+					
 					jtaYoudao1.append(resultYoudao[i]);
 					jtaYoudao2.append(resultYoudao[i]);
 					jtaYoudao3.append(resultYoudao[i]);
@@ -934,11 +942,13 @@ public class ClientSearch extends JFrame implements Constant {
 					jtaYoudao4.append("\n");
 					
 				}
+				now.setsYouDao(resultYoudao);
 				jtaYoudao1.setCaretPosition(0);
 				jtaYoudao2.setCaretPosition(0);
 				jtaYoudao3.setCaretPosition(0);
 				jtaYoudao4.setCaretPosition(0);
 				countBing = fromServer1.readInt();
+				now.setNumBing(countBing);
 				for (int i = 0; i < countBing; i++) {
 					resultBing[i] = fromServer1.readUTF();
 					jtaBing1.append(resultBing[i]);
@@ -950,6 +960,7 @@ public class ClientSearch extends JFrame implements Constant {
 					jtaBing3.append("\n");
 					jtaBing4.append("\n");
 				}
+				now.setsBing(resultBing);
 				jtaBing1.setCaretPosition(0);
 				jtaBing2.setCaretPosition(0);
 				jtaBing3.setCaretPosition(0);
@@ -1023,7 +1034,7 @@ public class ClientSearch extends JFrame implements Constant {
 			fromServer1 = new DataInputStream(socketFriend.getInputStream());
 			int numOfActiveAccount = fromServer1.readInt();
 			String []s=new String[numOfActiveAccount+1];
-			s[0]=wordZan.GetAccount();
+			s[0]=ta;
 			for (int i = 1; i < numOfActiveAccount+1; i++) {// 读取在线用户
 				s[i]=fromServer1.readUTF();
 				
@@ -1032,7 +1043,7 @@ public class ClientSearch extends JFrame implements Constant {
 			//所有用户
 			int n=fromServer1.readInt();
 			String []s2=new String[n+1];
-			s2[0]=wordZan.GetAccount();
+			s2[0]=ta;
 			for(int i=1;i<n+1;i++){
 				s2[i]=fromServer1.readUTF();
 				//System.out.println(i);
@@ -1438,8 +1449,9 @@ public class ClientSearch extends JFrame implements Constant {
 		jFrame.setVisible(true);
 		jFrame.setLocation(200, 150);
 	}
-	public ClientSearch(String ta,WordZan in,int issearch) {
+	public ClientSearch(String ta,WordZan in,int issearch,beifen nows) {
 		this.ta = ta;
+		this.now=nows;
 
 		try {
 			socketSearch = new Socket("localhost", 10086);
@@ -1465,11 +1477,72 @@ public class ClientSearch extends JFrame implements Constant {
 		System.out.println(wordZan.getBaidu());
 		System.out.print("youdao:  " + countYoudao + "    ");
 		System.out.println(wordZan.getYoudao());
-		System.out.print("bing:  " + countBing + "    ");
+		System.out.print("bing:  " + countBing + "    "no);
 		System.out.println(wordZan.getBing());*/
 		jtfWord.setText(wordZan.getWord());
-		if(issearch==1)
-		    searchWord(wordZan.getWord());
+		for(int i=0;i<now.getNumbaidu();i++)
+			System.out.println(now.getsBaiDu()[i]);
+		resultBaidu = new String[100];
+		resultYoudao = new String[100];
+		resultBing = new String[100];
+		countBaidu=now.getsBaiDu().length;
+		for (int i = 0; i < countBaidu; i++) {
+			resultBaidu[i]=now.getsBaiDu()[i];
+			jtaBaidu1.append(resultBaidu[i]);
+			jtaBaidu2.append(resultBaidu[i]);
+			jtaBaidu3.append(resultBaidu[i]);
+			jtaBaidu4.append(resultBaidu[i]);
+			jtaBaidu1.append("\n");
+			jtaBaidu2.append("\n");
+			jtaBaidu3.append("\n");
+			jtaBaidu4.append("\n");
+			
+			
+		}
+		jtaBaidu1.setCaretPosition(0);
+		jtaBaidu2.setCaretPosition(0);
+		jtaBaidu3.setCaretPosition(0);
+		jtaBaidu4.setCaretPosition(0);
+		countYoudao =now.getsYouDao().length;
+		for (int i = 0; i < countYoudao; i++) {
+			resultYoudao[i] = now.getsYouDao()[i];
+			jtaYoudao1.append(resultYoudao[i]);
+			jtaYoudao2.append(resultYoudao[i]);
+			jtaYoudao3.append(resultYoudao[i]);
+			jtaYoudao4.append(resultYoudao[i]);
+			jtaYoudao1.append("\n");
+			jtaYoudao2.append("\n");
+			jtaYoudao3.append("\n");
+			jtaYoudao4.append("\n");
+			
+		}
+		
+		jtaYoudao1.setCaretPosition(0);
+		jtaYoudao2.setCaretPosition(0);
+		jtaYoudao3.setCaretPosition(0);
+		jtaYoudao4.setCaretPosition(0);
+		countBing = now.getsBing().length;
+		for (int i = 0; i < countBing; i++) {
+			resultBing[i] = now.getsBing()[i];
+			jtaBing1.append(resultBing[i]);
+			jtaBing2.append(resultBing[i]);
+			jtaBing3.append(resultBing[i]);
+			jtaBing4.append(resultBing[i]);
+			jtaBing1.append("\n");
+			jtaBing2.append("\n");
+			jtaBing3.append("\n");
+			jtaBing4.append("\n");
+		}
+	
+		jtaBing1.setCaretPosition(0);
+		jtaBing2.setCaretPosition(0);
+		jtaBing3.setCaretPosition(0);
+		jtaBing4.setCaretPosition(0);
+		
+		
+		
+		/*if(issearch==1)
+		    searchWord(wordZan.getWord());*/
 		
 	
 		

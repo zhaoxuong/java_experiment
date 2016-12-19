@@ -60,7 +60,7 @@ public class ClientSign extends JFrame{
 		jFrame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jFrame2.setTitle("Sign");
 		jFrame2.setSize(250, 150);
-		jFrame2.setLocation(0, 600);
+		jFrame2.setLocation(540, 200);
 		jFrame2.setVisible(true);
 	}
 	
@@ -143,7 +143,7 @@ public class ClientSign extends JFrame{
 		jFrame1.setTitle("SignUp");
 		jFrame1.setSize(250, 150);
 		jFrame1.setVisible(true);
-		jFrame1.setLocation(540, 600);
+		jFrame1.setLocation(540, 200);
 		jbtSignIn1.addActionListener(new ActionListener() {
 			
 			@Override

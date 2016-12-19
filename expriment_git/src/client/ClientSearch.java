@@ -66,6 +66,7 @@ public class ClientSearch extends JFrame implements Constant {
 	private int flag2;
 	private int flag3;
 	private int flag=0;
+	private int flaguse=0;
 	
 	private String Sendword;
 	private String Sender;
@@ -235,7 +236,8 @@ public class ClientSearch extends JFrame implements Constant {
 	public void jbtuserset(){//发送单词卡的监听事件
 		ref2.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				getFriend();			
+				getFriend();
+				flaguse=1-flaguse;
 			}
 			
 		});
@@ -1019,18 +1021,25 @@ public class ClientSearch extends JFrame implements Constant {
 			toServer1.writeInt(1);
 			fromServer1 = new DataInputStream(socketFriend.getInputStream());
 			int numOfActiveAccount = fromServer1.readInt();
-			String []s=new String[numOfActiveAccount];
-			for (int i = 0; i < numOfActiveAccount; i++) {// 读取在线用户
+			String []s=new String[numOfActiveAccount+1];
+			s[0]=wordZan.GetAccount();
+			for (int i = 1; i < numOfActiveAccount+1; i++) {// 读取在线用户
 				s[i]=fromServer1.readUTF();
 				
 			}
+			
 			//所有用户
 			int n=fromServer1.readInt();
-			for(int i=0;i<n;i++){
-				fromServer1.readUTF();
-				System.out.println(i);
+			String []s2=new String[n+1];
+			s2[0]=wordZan.GetAccount();
+			for(int i=1;i<n+1;i++){
+				s2[i]=fromServer1.readUTF();
+				//System.out.println(i);
 			}
-			jluser.setListData(s);
+			if(flaguse==0)
+				jluser.setListData(s);
+			else
+				jluser.setListData(s2);
 		} catch (IOException e) {
 			System.err.println(e);
 		}

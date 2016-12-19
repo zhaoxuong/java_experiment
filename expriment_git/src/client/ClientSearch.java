@@ -982,6 +982,7 @@ public class ClientSearch extends JFrame implements Constant {
 					//我觉得应该是set
 				}*/
 				wordZan.setWord(word); 
+				System.out.println("+++++++++++"+wordZan.getWord());
 				toServer = new ObjectOutputStream(socketSearch.getOutputStream());
 				toServer.writeObject(wordZan);
 				fromServer = new ObjectInputStream(socketSearch.getInputStream());
@@ -1069,7 +1070,7 @@ public class ClientSearch extends JFrame implements Constant {
 					if(send[i].getBest()==3) temp="Bing";
 					
 					
-					words[i]=send[i].getWord()+"-"+temp;
+					words[i]=send[i].getWord().trim()+"-"+temp;
 					System.out.println(words[i]);
 				}
 				jlword.setListData(words);

@@ -338,10 +338,14 @@ public class ServerSearch extends JFrame {
 						}
 					} else {// 更新，把自己的用户名发过来
 						toClient = new ObjectOutputStream(client.getOutputStream());
+						toClient1=new DataOutputStream(client.getOutputStream());
 						resultSet = statement.executeQuery("SELECT count(*) as row FROM [dbo].[words] WHERE account='"
 										+ ((WordCard) object).getAccount() + "'");
 						resultSet.next();
-						toClient.writeInt(resultSet.getInt("row"));
+						int n=resultSet.getInt("row");
+						System.out.println("=========="+n+"=========");
+						toClient1.writeInt(n);
+						
 						
 						resultSet = statement
 								.executeQuery("SELECT word, best FROM [dbo].[words] WHERE account='"

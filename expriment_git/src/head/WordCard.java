@@ -10,8 +10,8 @@ public class WordCard implements Serializable, Constant{
 	private int type;//添加还是删除或者获取（更新）
 	
 	public WordCard(String a,String w,int b,int t){
-		account=new String(a);
-		word=new String(w);
+		account=a;
+		word=w;
 		best=b;
 		type=t;
 	}

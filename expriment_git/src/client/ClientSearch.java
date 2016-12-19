@@ -15,7 +15,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.plaf.synth.SynthSplitPaneUI;
 
-import head.AllWordCard;
+
 import head.Constant;
 import head.WordCard;
 import head.WordZan;
@@ -1506,12 +1506,25 @@ public class ClientSearch extends JFrame implements Constant {
 		System.out.print("bing:  " + countBing + "    "no);
 		System.out.println(wordZan.getBing());*/
 		jtfWord.setText(wordZan.getWord());
-		for(int i=0;i<now.getNumbaidu();i++)
-			System.out.println(now.getsBaiDu()[i]);
+		/*for(int i=0;i<now.getNumbaidu();i++)
+			System.out.println(now.getsBaiDu()[i]);*/
 		resultBaidu = new String[100];
 		resultYoudao = new String[100];
 		resultBing = new String[100];
-		countBaidu=now.getsBaiDu().length;
+		/*jtaBaidu1.setText(null);
+		jtaBaidu2.setText(null);
+		jtaBaidu3.setText(null);
+		jtaBaidu4.setText(null);
+		jtaYoudao1.setText(null);
+		jtaYoudao2.setText(null);
+		jtaYoudao3.setText(null);
+		jtaYoudao4.setText(null);
+		jtaBing1.setText(null);
+		jtaBing2.setText(null);
+		jtaBing3.setText(null);
+		jtaBing4.setText(null);*/
+		//countBaidu=now.getsBaiDu().length;
+		countBaidu=now.getNumbaidu();
 		for (int i = 0; i < countBaidu; i++) {
 			resultBaidu[i]=now.getsBaiDu()[i];
 			jtaBaidu1.append(resultBaidu[i]);
@@ -1529,7 +1542,8 @@ public class ClientSearch extends JFrame implements Constant {
 		jtaBaidu2.setCaretPosition(0);
 		jtaBaidu3.setCaretPosition(0);
 		jtaBaidu4.setCaretPosition(0);
-		countYoudao =now.getsYouDao().length;
+		//countYoudao =now.getsYouDao().length;
+		countYoudao=now.getNumyoudao();
 		for (int i = 0; i < countYoudao; i++) {
 			resultYoudao[i] = now.getsYouDao()[i];
 			jtaYoudao1.append(resultYoudao[i]);
@@ -1547,7 +1561,8 @@ public class ClientSearch extends JFrame implements Constant {
 		jtaYoudao2.setCaretPosition(0);
 		jtaYoudao3.setCaretPosition(0);
 		jtaYoudao4.setCaretPosition(0);
-		countBing = now.getsBing().length;
+		//countBing = now.getsBing().length;
+		countBing=now.getNumBing();
 		for (int i = 0; i < countBing; i++) {
 			resultBing[i] = now.getsBing()[i];
 			jtaBing1.append(resultBing[i]);
